@@ -1,0 +1,66 @@
+<script src="https://static.traycheckout.com.br/js/finger_print.js" type="text/javascript"></script>
+<?php $_code = $this->getMethodCode(); ?>
+<fieldset class="form-list" data-yapay="payment-form" id="payment_form_<?php echo $_code ?>" style="display:none;">
+        <ul>
+            <li>                   
+                <div class="input-box">
+                    <label for="<?php echo $_code ?>_cc_number">
+                    <?php echo Mage::helper('payment')->__('Credit Card Number') ?> <span class="required">*</span></label><br/>
+                    <input type="text" id="<?php echo $_code ?>_cc_number" 
+                    name="payment[<?php echo $_code ?>_cc_number]" 
+                    title="<?php echo Mage::helper('payment')->__('Credit Card Number') ?>" 
+                    class="required-entry input-text validate-cc-number" 
+                    value="" autocomplete="off"/>
+                </div>
+            </li>
+            <li>
+                <div class="input-box">
+                    <label for="<?php echo $_code ?>_cc_owner"><?php echo Mage::helper('payment')->__('Name on Card') ?> <span class="required">*</span></label><br/>
+                    <input type="text" title="<?php echo Mage::helper('payment')->__('Name on Card') ?>"
+                    name="payment[<?php echo $_code ?>_cc_name]"
+                    class="required-entry input-text" id="<?php echo $_code ?>_cc_owner" 
+                    name="payment[<?php echo $_code ?>_cc_name]" 
+                    value="" placeholder="JOHN DOE"/>
+                </div>
+            </li>            
+            <li>
+                <div class="input-box">
+                    <label for="<?php echo $_code ?>_expiration"><?php echo Mage::helper('payment')->__('Expiration Date') ?> <span class="required">*</span></label><br/>
+                    <select id="<?php echo $_code ?>_expiration" style="width:140px;" class="validate-cc-exp required-entry">
+                     <option value="3">Parcela(s)</option>
+                    </select>
+                    <select id="<?php echo $_code ?>_expiration_yr" style="width:102px;" class="required-entry">
+                        <option value="2026">Parcela(s)</option>
+                    </select>
+                    <input type="hidden" id="<?php echo $_code ?>_cc_expdate" name="payment[<?php echo $_code ?>_cc_expdate]" value="12/27">
+                </div>
+            </li>
+            <li>
+                <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+                <div class="input-box">
+                    <div class="v-fix">
+                        <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" 
+                        name="payment[<?php echo $_code ?>_cc_cid]"
+                        maxlength="4" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" oninput="fingerPrint()" value="" />
+                    </div>
+                    <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+                    <input type="hidden" 
+                    id="payment[<?php echo $_code ?>_cc_finger_print]" 
+                    name="payment[<?php echo $_code ?>_cc_finger_print]" 
+                    />
+                </div>
+            </li>
+            <li>
+                <div class="input-box">
+                    <input type="hidden" id="<?php echo $_code ?>_cc_split_number" name="payment[<?php echo $_code ?>_cc_split_number]" value=""/>
+                    <label for="<?php echo $_code ?>_cc_split_number"><?php echo Mage::helper('payment')->__('Parcelas') ?> <span class="required">*</span></label><br/>
+                    <select id="<?php echo $_code ?>_cc_split_number" style="width:252px;" 
+                    name="payment[<?php echo $_code ?>_cc_split_number]" 
+                    class="required-entry" onchange="document.getElementById('<?php echo $_code ?>_cc_split_number').value = this.options[this.selectedIndex].text.replace(/.*R\$/,'').replace(/\,/,'.');">
+                    <option value="1">Parcela(s)</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+</fieldset>
+<script>window.yapay.FingerPrint({ env: 'sandbox' });</script>

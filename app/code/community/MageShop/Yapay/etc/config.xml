@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageShop_Yapay>
+            <version>1.0.0</version>
+        </MageShop_Yapay>
+    </modules>
+ 
+    <global>
+        <models>
+            <mageshop_yapay>
+                <class>MageShop_Yapay_Model</class>
+            </mageshop_yapay>
+        </models>
+ 
+        <helpers>
+            <mageshop_yapay>
+                <class>MageShop_Yapay_Helper</class>
+            </mageshop_yapay>
+        </helpers>
+ 
+        <blocks>
+            <mageshop_yapay>
+                <class>MageShop_Yapay_Block</class>
+            </mageshop_yapay>
+        </blocks>
+        
+        <validations>
+            <mageshop_yapay>
+              <class>MageShop_Yapay_Validations</class>
+            </mageshop_yapay>
+        </validations>
+
+        <services>
+            <mageshop_yapay>
+              <class>MageShop_Yapay_Service</class>
+            </mageshop_yapay>
+        </services>
+
+        <resources>
+            <mageshop_yapay_setup>
+                <setup>
+                    <module>MageShop_Yapay</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mageshop_yapay_setup>
+            <mageshop_yapay_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </mageshop_yapay_write>
+            <mageshop_yapay_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </mageshop_yapay_read>
+        </resources>
+
+        <sales>
+            <order>
+                <states>
+                    <pending_payment translate="label">
+                        <visible_on_front>1</visible_on_front>
+                    </pending_payment>
+                </states>
+            </order>
+        </sales>
+    
+        <fieldsets>
+          <sales_convert_quote_payment>
+            <check_no>
+              <to_order_payment>*</to_order_payment>
+            </check_no>
+            <check_date>
+              <to_order_payment>*</to_order_payment>
+            </check_date>
+          </sales_convert_quote_payment>
+        </fieldsets>
+
+    </global>
+
+    <default>
+        <payment>
+            <yapay_creditcardpayment>
+                <model>mageshop_yapay/payment_creditcard</model>
+                <active>1</active>
+                <title>Cartão de Crédito - via Yapay</title>
+                <sort_order>1</sort_order>
+                <order_status>pending</order_status>
+                <allowspecific>0</allowspecific>
+                <payment_action>order</payment_action>
+            </yapay_creditcardpayment>
+        </payment>
+    </default>
+</config>
