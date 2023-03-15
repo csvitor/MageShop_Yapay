@@ -6,10 +6,19 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     const MS_YAPAY_KEY_ENV = "payment/mageshop_yapay_custompayment/environment";
     const MS_YAPAY_BASE_URL = "payment/mageshop_yapay_custompayment/base_url";
     const MS_YAPAY_AVAILABLE_PAYMENT_METHOD = "payment/yapay_creditcardpayment/available_payment_methods";
+    const MS_YAPAY_COUNT_MAX_SPLIT = "payment/yapay_creditcardpayment/installments";
+    const MS_YAPAY_COUNT_MIN_SPLIT = "payment/yapay_creditcardpayment/min_installment";
     const MS_YAPAY_SANDBOX = "https://api.intermediador.sandbox.yapay.com.br/";
     const MS_YAPAY_API = "https://api.intermediador.yapay.com.br/";
 
-
+    public function getCountMaxSprit()
+    {
+        return (int) Mage::getStoreConfig(self::MS_YAPAY_COUNT_MAX_SPLIT);
+    }
+    public function getCountMinSprit()
+    {
+        return (int) Mage::getStoreConfig(self::MS_YAPAY_COUNT_MIN_SPLIT);
+    }
     public function getToken()
     {
         return Mage::getStoreConfig(self::MS_YAPAY_TOKEN);
@@ -21,6 +30,16 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     public function getEnvironment(){
         return Mage::getStoreConfig(self::MS_YAPAY_KEY_ENV);
     }
+
+    public function getEnvironmentFingerPrint()
+    {
+        if ($this->getEnvironment() == 'sandbox') {
+            return "env: 'sandbox'";
+        } else {
+            return '';
+        }
+    }
+
     public function getUrlEnvironment()
     {
         if ($this->getEnvironment() == 'sandbox') {

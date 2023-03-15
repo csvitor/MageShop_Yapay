@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <onestepcheckout_index_index translate="label">
+        <reference name="head">
+            <action method="addJs"><script>mageshop/yapay/js/jquery/jquery-2.1.4.min.js</script></action>
+            <action method="addJs"><script>mageshop/yapay/js/form-yapay.js</script></action>
+            <block type="core/text" name="external_js">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<script type="text/javascript" src="https://static.traycheckout.com.br/js/finger_print.js"></script>]]>
+                    </text>
+                </action>
+            </block>
+        </reference>
+    </onestepcheckout_index_index>
+
+    <checkout_onepage_index translate="label">
+        <reference name="head">
+            <action method="addJs"><script>mageshop/yapay/js/jquery/jquery-2.1.4.min.js</script></action>
+            <action method="addJs"><script>mageshop/yapay/js/form-yapay.js</script></action>
+            <block type="core/text" name="external_js">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<script type="text/javascript" src="https://static.traycheckout.com.br/js/finger_print.js"></script>]]>
+                    </text>
+                </action>
+            </block>
+        </reference>
+    </checkout_onepage_index>
+
+    <!-- <checkout_onepage_success translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>mageshop/belluno/css/page_success.css</name></action>
+        </reference>
+        <reference name="content">
+            <reference name="checkout.success">
+                <block type="core/template" name="belluno.info" template="mageshop/belluno/checkout/success.phtml" />
+            </reference>
+        </reference>
+    </checkout_onepage_success> -->
+<!-- 
+    <sales_order_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>mageshop/belluno/css/page_info.css</name></action>
+        </reference>
+    </sales_order_view> -->
+</layout>

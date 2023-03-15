@@ -24,6 +24,7 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
         $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
         $this
         ->token_account()
+        ->fingerPrint()
         ->customer()
         ->contacts()
         ->shippingAddress()
@@ -39,6 +40,11 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
         return $this;
     }
 
+    private function fingerPrint()
+    {
+        $this->_data['finger_print'] = $this->_datacc['yapay_creditcardpayment_cc_finger_print'];
+        return $this;
+    }
     private function transaction()
     {
         
@@ -50,7 +56,7 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
             "available_payment_methods" => $this->_helper->getAvailablePaymentMethodsCc(),
             "customer_ip" => Mage::helper('core/http')->getRemoteAddr(),
             "shipping_type" => $shippingTitle,
-            "shipping_price" => $shippingPrice,
+            "shipping_price" => is_numeric( $discountAmount ) ? sprintf('%.2f', $shippingPrice) : $shippingPrice,
             "price_discount" => is_numeric( $discountAmount ) ? sprintf('%.2f',$discountAmount) : 0,
             "url_notification" => Mage::getUrl('yapay/observer/postback'),
             "free" => "mod_m1_mageshop",
@@ -131,7 +137,7 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
             }
             $this->_data['transaction_product'][$i]['description'] = $item->getName();
             $this->_data['transaction_product'][$i]['quantity'] = $item->getQty();
-            $this->_data['transaction_product'][$i]['price_unit'] = sprintf('%.2f', $item->getPrice());
+            $this->_data['transaction_product'][$i]['price_unit'] = is_numeric($item->getPrice()) ? sprintf('%.2f', $item->getPrice()) : $item->getPrice();
             $this->_data['transaction_product'][$i]['code'] = $item->getId();
             $this->_data['transaction_product'][$i]['sku_code'] = $item->getId();
             $i++;

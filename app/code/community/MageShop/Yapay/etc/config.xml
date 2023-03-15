@@ -5,7 +5,6 @@
             <version>1.0.0</version>
         </MageShop_Yapay>
     </modules>
- 
     <global>
         <models>
             <mageshop_yapay>
@@ -18,25 +17,21 @@
                 <class>MageShop_Yapay_Helper</class>
             </mageshop_yapay>
         </helpers>
- 
         <blocks>
             <mageshop_yapay>
                 <class>MageShop_Yapay_Block</class>
             </mageshop_yapay>
         </blocks>
-        
         <validations>
             <mageshop_yapay>
               <class>MageShop_Yapay_Validations</class>
             </mageshop_yapay>
         </validations>
-
         <services>
             <mageshop_yapay>
               <class>MageShop_Yapay_Service</class>
             </mageshop_yapay>
         </services>
-
         <resources>
             <mageshop_yapay_setup>
                 <setup>
@@ -57,7 +52,6 @@
                 </connection>
             </mageshop_yapay_read>
         </resources>
-
         <sales>
             <order>
                 <states>
@@ -67,7 +61,6 @@
                 </states>
             </order>
         </sales>
-    
         <fieldsets>
           <sales_convert_quote_payment>
             <check_no>
@@ -78,9 +71,25 @@
             </check_date>
           </sales_convert_quote_payment>
         </fieldsets>
-
     </global>
-
+    <frontend>
+        <layout>
+            <updates>
+                <mageshop_yapay>
+                    <file>mageshop/yapay.xml</file>
+                </mageshop_yapay>
+            </updates>
+        </layout>
+        <routers>
+            <mageshop_yapay>
+                <use>standard</use>
+                <args>
+                    <module>MageShop_Yapay</module>
+                    <frontName>yapay</frontName>
+                </args>
+            </mageshop_yapay>
+        </routers>
+    </frontend>
     <default>
         <payment>
             <yapay_creditcardpayment>

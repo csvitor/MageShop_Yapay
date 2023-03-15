@@ -75,7 +75,6 @@
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
           </order_status>
-
           <available_payment_methods translate="label">
             <label>Meios de Pagamento disponíveis</label>
             <frontend_type>multiselect</frontend_type>
@@ -84,8 +83,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-        </available_payment_methods>
-
+          </available_payment_methods>
           <installments translate="label">
             <label>Quantidades de parcelas</label>
             <frontend_type>select</frontend_type>
@@ -97,7 +95,7 @@
             <validate>required-entry validate-number integer</validate>
           </installments>
           <min_installment translate="label">
-            <label>Valor Mínimo por Parcela</label>
+            <label>Valor Mínimo de Parcela</label>
             <frontend_type>text</frontend_type>
             <sort_order>60</sort_order>
             <show_in_default>1</show_in_default>
@@ -114,6 +112,33 @@
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
           </capture_tax>
+          <capture_name translate="label">
+            <label>Capturar Nome Completo no formulário de pagamento?</label>
+            <frontend_type>select</frontend_type>
+            <source_model>adminhtml/system_config_source_yesno</source_model>
+            <sort_order>70</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+          </capture_name>
+          <capture_birth translate="label">
+            <label>Capturar Data de nascimento no formulário de pagamento?</label>
+            <frontend_type>select</frontend_type>
+            <source_model>adminhtml/system_config_source_yesno</source_model>
+            <sort_order>71</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+          </capture_birth>
+          <capture_email translate="label">
+            <label>Capturar E-mail no formulário de pagamento?</label>
+            <frontend_type>select</frontend_type>
+            <source_model>adminhtml/system_config_source_yesno</source_model>
+            <sort_order>72</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+          </capture_email>
         </fields>
       </yapay_creditcardpayment>
       </groups>

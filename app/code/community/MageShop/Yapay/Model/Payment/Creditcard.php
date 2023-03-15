@@ -68,12 +68,14 @@ class MageShop_Yapay_Model_Payment_Creditcard extends Mage_Payment_Model_Method_
         $parts = explode('/', $data['yapay_creditcardpayment_cc_expdate']);
         $array = [
             'method' => $data['method'],
-            'yapay_creditcardpayment_cc_number' => $data['yapay_creditcardpayment_cc_number'],
-            'yapay_creditcardpayment_cc_name' => $data['yapay_creditcardpayment_cc_name'],  
-            'yapay_creditcardpayment_cc_expdate_year' => $parts[1],
-            'yapay_creditcardpayment_cc_expdate_month' => $parts[0],
-            'yapay_creditcardpayment_cc_split_number' => $data['yapay_creditcardpayment_cc_split_number'],
-            'yapay_creditcardpayment_cc_document' => $data['yapay_creditcardpayment_cc_document'],
+            'yapay_creditcardpayment_cc_number'             => $data['yapay_creditcardpayment_cc_number'],
+            'yapay_creditcardpayment_cc_name'               => $data['yapay_creditcardpayment_cc_name'],  
+            'yapay_creditcardpayment_cc_expdate_year'       => $parts[1],
+            'yapay_creditcardpayment_cc_expdate_month'      => $parts[0],
+            'yapay_creditcardpayment_cc_split_number'       => $data['yapay_creditcardpayment_cc_split_number'],
+            'yapay_creditcardpayment_cc_split_number_value' => $data['yapay_creditcardpayment_cc_split_number_value'],
+            'yapay_creditcardpayment_cc_document'           => $data['yapay_creditcardpayment_cc_document'],
+            'yapay_creditcardpayment_cc_finger_print'       => $data['yapay_creditcardpayment_cc_finger_print']
         ];
         return json_encode($array);
     }
