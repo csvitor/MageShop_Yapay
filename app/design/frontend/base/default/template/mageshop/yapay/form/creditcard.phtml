@@ -24,7 +24,7 @@ $helper = Mage::helper("mageshop_yapay/data");
                     <label for="<?php echo $_code ?>_cc_owner"><?php echo $helper->__('Name on Card') ?> </label><br/>
                     <input type="text" title="<?php echo $helper->__('Name on Card') ?>"
                     name="payment[<?php echo $_code ?>_cc_name]"
-                    class="required-entry input-text" id="<?php echo $_code ?>_cc_owner" 
+                    class="required-entry input-text validate-name" id="<?php echo $_code ?>_cc_owner" 
                     name="payment[<?php echo $_code ?>_cc_name]" 
                     placeholder="JOHN DOE" onkeypress="return apenasLetras(event,this);"/>
                 </div>
@@ -37,30 +37,33 @@ $helper = Mage::helper("mageshop_yapay/data");
                             <?php echo $helper->__("Mês Vencimento") ?><em>*</em>
                         </label>
                         <div class="input-box">
-                            <select name="<?php echo $_code ?>_expiration" class="input-text required-entry validate-expirymonth" >
+                            <select name="payment[<?php echo $_code ?>_expiration_month]" class="input-text required-entry validate-expirymonth" >
                                 <option selected disabled><?php echo $helper->__("Month") ?></option>
-                                <option value="01"><?php echo $helper->__("January") ?> - 01</option>
-                                <option value="02"><?php echo $helper->__("February") ?> - 02</option>
-                                <option value="03"><?php echo $helper->__("March") ?> - 03</option>
-                                <option value="04"><?php echo $helper->__("April") ?> - 04</option>
-                                <option value="05"><?php echo $helper->__("May") ?> - 05</option>
-                                <option value="06"><?php echo $helper->__("June") ?> - 06</option>
-                                <option value="07"><?php echo $helper->__("July") ?> - 07</option>
-                                <option value="08"><?php echo $helper->__("August") ?> - 08</option>
-                                <option value="09"><?php echo $helper->__("Septembre") ?> - 09</option>
-                                <option value="10"><?php echo $helper->__("Octobre") ?> - 10</option>
-                                <option value="11"><?php echo $helper->__("Novembre") ?> - 11</option>
-                                <option value="12"><?php echo $helper->__("Decembre") ?> - 12</option>
+                                <option value="01">1 - <?php echo $helper->__("Janeiro") ?></option>
+                                <option value="02">2 - <?php echo $helper->__("Fevereiro") ?></option>
+                                <option value="03">3 - <?php echo $helper->__("Março") ?></option>
+                                <option value="04">4 - <?php echo $helper->__("Abril") ?></option>
+                                <option value="05">5 - <?php echo $helper->__("Maio") ?></option>
+                                <option value="06">6 - <?php echo $helper->__("Junho") ?></option>
+                                <option value="07">7 - <?php echo $helper->__("Julho") ?></option>
+                                <option value="08">8 - <?php echo $helper->__("Agosto") ?></option>
+                                <option value="09">9 - <?php echo $helper->__("Setembro") ?></option>
+                                <option value="10">10 - <?php echo $helper->__("Outubro") ?></option>
+                                <option value="11">11 - <?php echo $helper->__("Novembro") ?></option>
+                                <option value="12">12 - <?php echo $helper->__("Dezembro") ?></option>
                             </select>
                         </div>
                     </div>
                     <div class="field card-card_cvv">
                         <label for="card_cvv" class="required"><?php echo $helper->__("Ano do Vencimento") ?><em>*</em></label>
                         <div class="input-box">
-                            <select name="<?php echo $_code ?>_expiration_yr"  class="input-text required-entry validate-expiryyear" >
+                            <select name="payment[<?php echo $_code ?>_expiration_yr]"  class="input-text required-entry validate-expiryyear" >
+                                <option selected disabled><?php echo $helper->__("Year") ?></option>
+                                <?php foreach ($this->years() as $year): ?>
+                                   <option value="<?php echo $year?>"><?php echo $helper->__( $year ) ?></option>
+                                <?php endforeach;?>
                                 <option selected disabled><?php echo $helper->__("Year") ?></option>
                             </select>
-                            <input type="hidden"id="<?php echo $_code ?>_cc_expdate" class="input-text required-entry validate-expires_at" name="payment[<?php echo $_code ?>_cc_expdate]" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
@@ -72,7 +75,7 @@ $helper = Mage::helper("mageshop_yapay/data");
                     <div class="v-fix">
                         <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" 
                         name="payment[<?php echo $_code ?>_cc_cid]"
-                        maxlength="4" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" />
+                        maxlength="4" class="input-text cvv required-entry validate-cvv" id="<?php echo $_code ?>_cc_cid" />
                     </div>
                     <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
                     <input type="hidden" 
@@ -87,7 +90,7 @@ $helper = Mage::helper("mageshop_yapay/data");
                     <label for="<?php echo $_code ?>_cc_split_number"><?php echo $helper->__('Parcelas') ?> </label><br/>
                     <select id="<?php echo $_code ?>_cc_split_number" style="width:252px;" 
                     name="payment[<?php echo $_code ?>_cc_split_number]" 
-                    class="required-entry" onchange="document.getElementById('<?php echo $_code ?>_cc_split_number_value').value = this.options[this.selectedIndex].text.replace(/.*R\$/,'').replace(/\,/,'.');">
+                    class="required-entry validate-installment" onchange="document.getElementById('<?php echo $_code ?>_cc_split_number_value').value = this.options[this.selectedIndex].text.replace(/.*R\$/,'').replace(/\,/,'.');">
                     <option value="1">Parcela(s)</option>
                     </select>
                 </div>
@@ -101,7 +104,6 @@ $helper = Mage::helper("mageshop_yapay/data");
                 var v = document.getElementById('yapay_creditcardpayment_cc_number');
                 var resCc = identifyCreditCardTc(v.value.replace(/ /g,''));
                 v.value = resCc;
-
                 $yapay('#yapay_creditcardpayment_cc_number').change(function(){
                     var v = $yapay(this).val();
                     var resCc = identifyCreditCardTc(v.replace(/ /g,''));

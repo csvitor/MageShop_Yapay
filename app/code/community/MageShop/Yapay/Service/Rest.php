@@ -18,7 +18,7 @@ class MageShop_Yapay_Service_Rest{
      *
      * @var string|array
      */
-    private $data;
+    private $data = null;
     /**
      * Cabeçalho
      *
@@ -153,6 +153,17 @@ class MageShop_Yapay_Service_Rest{
             'response' => $response
         );
         return $this;
+    }
+    /**
+     * Armazena em log as requisições
+     *
+     * @param string $title
+     * @param string $body
+     * @param string $file
+     * @return void
+     */
+    public function setLogYapay($title, $body, $file){
+        Mage::log("[-- {$title} --] {$body}", null , $file, true);
     }
 
 }

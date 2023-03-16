@@ -47,9 +47,10 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
     }
     private function transaction()
     {
-        
-        $shippingDescription = $this->_payment->getShippingDescription();
-        $shippingTitle = trim(str_replace($this->_payment->getShippingAmount(), '', $shippingDescription));
+        $shippingTitle = $this->_payment->getOrder()->getData('shipping_description');
+        if($shippingTitle == NULL || empty($shippingTitle)){
+            $shippingTitle = "Produto Virtual";
+        }
         $shippingPrice = $this->_payment->getShippingAmount();
         $discountAmount = $this->_payment->getDiscountAmount();
         $this->_data ["transaction"] = array(
@@ -66,19 +67,19 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
 
     private function payment()
     {
-        
         $numberCc = preg_replace('/[^0-9]/is', '', $this->_datacc['yapay_creditcardpayment_cc_number']);
         $idCc = $this->_helperCc->getCardTypeYapay($numberCc);
         $nameCc = $this->_datacc['yapay_creditcardpayment_cc_number'];
         $cvvCc = $this->_datacc['yapay_creditcardpayment_cc_cid'];
         $splitNumberCc = $this->_datacc['yapay_creditcardpayment_cc_split_number'];
-
+        $expdate_month = $this->_datacc['yapay_creditcardpayment_cc_expdate_month'];
+        $expdate_year = $this->_datacc['yapay_creditcardpayment_cc_expdate_year'];
         $this->_data['payment'] =  array(
             "payment_method_id" => $idCc,
             "card_name" => $nameCc,
             "card_number" => $numberCc,
-            "card_expdate_month" => "01",
-            "card_expdate_year" => "2023",
+            "card_expdate_month" => $expdate_month,
+            "card_expdate_year" => $expdate_year,
             "card_cvv" => $cvvCc,
             "split" => $splitNumberCc
         );
@@ -129,7 +130,8 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
 
     private function transaction_product()
     {
-        $items = $this->_payment->getOrder()->getAllItems();
+        $quote = $this->getCheckout()->getQuote();
+        $items = $quote->getAllItems();
         $i = 0;
         foreach ($items as $item) {
             if($item->getPrice() <= 0){
