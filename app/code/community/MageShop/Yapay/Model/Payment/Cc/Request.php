@@ -31,6 +31,8 @@ class MageShop_Yapay_Model_Payment_Cc_Request{
         if(empty($response) || $response == null){
             Mage::throwException($this->_helper->__("Algo não ocorreu bem. Por favor verifique suas informações ou altere a forma de pagamento."));
         }
+        json_encode($response);
+        $info->setAdditionalInformation("cc", $response);
         return json_decode($response, true);
     }
     public function ccData()
