@@ -61,6 +61,7 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
             "price_discount" => is_numeric( $discountAmount ) ? sprintf('%.2f',$discountAmount) : 0,
             "url_notification" => Mage::getUrl('yapay/observer/postback'),
             "free" => "mod_m1_mageshop",
+            "order_number" => $this->_payment->getOrder()->getQuote()->getReservedOrderId()
         );
         return $this;
     }

@@ -2,8 +2,6 @@
 
 class MageShop_Yapay_CcController extends Mage_Core_Controller_Front_Action{
 
-    private $rest;
-    private $_helper;
     const URI_SLIT = 'v1/transactions/simulate_splitting';
     public function splitAction()
     {
