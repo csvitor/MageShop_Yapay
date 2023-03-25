@@ -13,7 +13,6 @@
             </block>
         </reference>
     </onestepcheckout_index_index>
-
     <checkout_onepage_index translate="label">
         <reference name="head">
             <action method="addJs"><script>mageshop/yapay/js/jquery/jquery-2.1.4.min.js</script></action>
@@ -27,21 +26,25 @@
             </block>
         </reference>
     </checkout_onepage_index>
-
-    <!-- <checkout_onepage_success translate="label">
+    <checkout_onepage_success translate="label">
         <reference name="head">
-            <action method="addItem"><type>skin_css</type><name>mageshop/belluno/css/page_success.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>mageshop/yapay/css/payment/success.css</name></action>
         </reference>
         <reference name="content">
             <reference name="checkout.success">
-                <block type="core/template" name="belluno.info" template="mageshop/belluno/checkout/success.phtml" />
+                <block type="checkout/onepage_success" name="mageshop_yapay.success" template="mageshop/yapay/checkout/success.phtml" >
+                    <block type="mageshop_yapay/payment_status" name="mageshop_yapay.creditcard" as="card" template="mageshop/yapay/checkout/info/creditcard.phtml"/>
+                    <block type="mageshop_yapay/payment_status" name="mageshop_yapay.pix" as="pix" template="mageshop/yapay/checkout/info/pix.phtml"/>
+                    <block type="mageshop_yapay/payment_status" name="mageshop_yapay.bankslip" as="ticket" template="mageshop/yapay/checkout/info/bankslip.phtml"/>
+                </block>
             </reference>
         </reference>
-    </checkout_onepage_success> -->
-<!-- 
+    </checkout_onepage_success>
+
+
     <sales_order_view>
         <reference name="head">
-            <action method="addItem"><type>skin_css</type><name>mageshop/belluno/css/page_info.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>mageshop/yapay/css/payment/info.css</name></action>
         </reference>
-    </sales_order_view> -->
+    </sales_order_view>
 </layout>

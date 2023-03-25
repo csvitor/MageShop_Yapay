@@ -62,12 +62,16 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
     {
       if ($this->canOrder()) {
         $yapay_push = new MageShop_Yapay_Model_Payment_Cc_Request;
-        $resYapay = $yapay_push->transitionCc($payment, $amount,  $this->getInfoInstance());
+        $resYapay = $yapay_push->transitionCc($payment, $amount, $this->getInfoInstance());
         $validity = $this->_validity($resYapay);
         if($validity['general_errors']){
             Mage::throwException(Mage::helper("mageshop_yapay/data")->__($validity['error']));
             return $this;
         }
+        $payment->setAdditionalInformation("transaction_id", $validity['transaction_id']);
+        $payment->setAdditionalInformation("status_id", $validity['status_id']);
+        $payment->setAdditionalInformation("token_transaction", $validity['token_transaction']);
+        $payment->setAdditionalInformation("status_name", $validity['status_name']);
         return $this;
       }
     }
@@ -109,6 +113,8 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
     }
     /**
      * Function to save assign data
+     * @var array|mixed
+     * @return string
      */
     public function saveCcAssignData($data)
     {

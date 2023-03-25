@@ -1,0 +1,73 @@
+
+.container_yapay_payment_cc {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    height: auto;
+    background: #EEE;
+    padding: 10px;
+    position: relative;
+    margin-top: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.container_yapay_payment_cc .vindi {
+    width: 200px;
+    height: 80px;
+    background-image: url(../../images/logo-vindi.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: auto;
+    background-size: contain;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.container_yapay_payment_cc .yapay_data_payment_cc {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+}
+.container_yapay_payment_cc .yapay_data_payment_cc h2.yapay_payment_status {
+    width: auto;
+    margin-left: 10px;
+    color: #001a9d;
+}
+
+.container_yapay_payment_cc .yapay_data_payment_cc h4.yapay_payment_status {
+    width: 100%;
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_table_list_data_payment {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_table_list_data_payment ul li {
+    font-size: 1.1em;
+    line-height: 1.9em;
+}
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_table_list_data_payment ul li b{
+    color: #00a3ff;
+    margin-left: 5px;
+}
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+}
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_pending_payment_cc {
+    background-image: url(../../images/pending.png);
+}

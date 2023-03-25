@@ -24,15 +24,21 @@ class MageShop_Yapay_Model_Payment_Cc_Request{
         $_url =  $this->_helper->getUrlEnvironment() . self::URI_CC;
         $pushData = $this->_data->getDataCc($payment, $info);
         $raw = json_encode($pushData, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+        // grava o pedido no yapay
         $this->_curl->url($_url)->_method('POST')->_body($raw)->exec();
+        // resultado yapay
         $response = $this->_curl->getResponse();
         $log = array("URL" => $_url, "POSTFIELDS" => $raw, "RESPONSE" => $response);
+        // grava o log
         $this->_curl->setLogYapay("RESPONSE", var_export($log, true), "mageshop_yapay_cc_request.log");
+
         if(empty($response) || $response == null){
             Mage::throwException($this->_helper->__("Algo não ocorreu bem. Por favor verifique suas informações ou altere a forma de pagamento."));
         }
+
         json_encode($response);
-        $info->setAdditionalInformation("cc", $response);
+        $info->setAdditionalInformation("transactions", $response);
+
         return json_decode($response, true);
     }
     public function ccData()

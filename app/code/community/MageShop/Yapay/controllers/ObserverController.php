@@ -12,10 +12,7 @@ class MageShop_Yapay_ObserverController extends Mage_Core_Controller_Front_Actio
             if(gettype( $data ) == 'string'){
                 $data = json_decode($data, true);
             }
-            $log = [
-                "POSTBACK YAPAY",
-                "RESPONSE_YAPAY_POSTBACK" => $data,
-            ];
+            $logger["RESPONSE_YAPAY_POSTBACK"] = $data;
             $_helper = Mage::helper("mageshop_yapay/data");
             $rest = $this->restCurl();
             $_url =  $_helper->getUrlEnvironment() . self::URI_GET_TRANSACTION;
@@ -29,18 +26,19 @@ class MageShop_Yapay_ObserverController extends Mage_Core_Controller_Front_Actio
             $response = $rest->getResponse();
             $order = Mage::getModel("mageshop_yapay/payment_updater");
             $order->processOrder($response);
-            $log['RESPONSE_YAPAY_AFTER_POSTBACK'] = $response;
-            Mage::log( var_export( $log ,true) , Zend_Log::DEBUG , 'postback_yapay.log', true);
+            $logger['RESPONSE_YAPAY_AFTER_POSTBACK'] = $response;
+            // registra
+            $rest->setLogYapay("POSTBACK", var_export($logger, true), "mageshop_yapay_postback.log");
             $http->setHttpResponseCode(200);
         }catch(Mage_Core_Exception $e){
             $http->setHttpResponseCode(400);
-            Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'erro_postback_yapay.log', true);
+            Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
         }catch (\Exception $e) {
             $http->setHttpResponseCode(400);
-            Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'erro_postback_yapay.log', true);
+            Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
         }catch( \Throwable $th) {
             $http->setHttpResponseCode(500);
-            Mage::log( var_export($th, true) , Zend_Log::DEBUG , 'erro_postback_yapay.log', true);
+            Mage::log( var_export($th, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
         }
     }
 

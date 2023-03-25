@@ -87,8 +87,8 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
         {
             case self::YAPAY_TRANSACTION_CODE_STATE_PENDING_PAYMENT:
             case 5:
-            case 88:
             case 87:
+            case 88:
                 $this->_pending($this->_helper->__('Yapay Intermediador enviou automaticamente o status: %s', $comment));
             break;
             case self::YAPAY_TRANSACTION_CODE_STATE_PAID:
