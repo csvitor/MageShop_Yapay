@@ -49,4 +49,34 @@ class MageShop_Yapay_Block_Payment_Status extends Mage_Payment_Block_Info{
             return "yapay_status_pending_payment_cc";
         }
     }
+
+    public function transactionIdYapay()
+    {
+        return $this->_getInformation("transaction_id");
+    }
+
+    public function _getInformation($field = null)
+    {
+       if($this->getInfo()){
+            return $this->getInfo()->getAdditionalInformation($field);
+       }
+    }
+
+
+    public function _getInforTransactionPaymentYapay($field = null)
+    {
+        $transactions = $this->_getInformation("transactions");
+        if(gettype($transactions) == 'string'){
+            $transactions = json_decode($transactions, true);
+        }
+        if(!isset($transactions['data_response']['transaction']['payment'])){
+            return [];
+        }
+        $payment = $transactions['data_response']['transaction']['payment'];
+        if($field == null){
+            return  $payment;
+        }else{
+            return isset( $payment [$field] ) ?  $payment [$field] : [];
+        }
+    }
 }

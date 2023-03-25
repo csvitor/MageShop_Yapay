@@ -15,7 +15,7 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
     
     protected $_code = self::PAY_CODE;
     protected $_formBlockType = 'mageshop_yapay/form_creditcard';
-    //protected $_infoBlockType = 'ricardomartins_pagseguro/form_info_cc';
+    protected $_infoBlockType = 'mageshop_yapay/info_creditcard';
     protected $_canOrder = true;
     protected $_isInitializeNeeded = true;
     protected $_isGateway = true;
@@ -28,14 +28,7 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
     protected $_canUseForMultishipping = false;
     protected $_canSaveCc = false;
 
-    protected $_helper;
-    protected $_pHelper;
 
-    public function __construct()
-    {
-        $this->_helper = Mage::helper('mageshop_yapay/data');
-        parent::__construct();
-    }
     /**
      * Method that will be executed instead of magento's authorize default
      * workflow

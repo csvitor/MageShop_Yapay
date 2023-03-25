@@ -11,10 +11,10 @@ $customerEmail = $customer->getEmail();
 <div class="container_yapay_payment_cc">
     <div class="vindi"></div>
     <div class="yapay_data_payment_cc">
-        <div class="yapay_payment_icon <?php echo $helper->__( $this->_status( $this->payment->getAdditionalInformation("status_id") )); ?>"></div>
+        <div class="yapay_payment_icon <?php echo $helper->__( $this->_status( $payment->getAdditionalInformation("status_id") )); ?>"></div>
         <h2 class="yapay_payment_status"> <?php echo $helper->__( $payment->getAdditionalInformation("status_name") ); ?></h2>
         <h4 class="yapay_payment_status">
-            <?php echo $helper->__( $this->_message( $this->payment->getAdditionalInformation("status_id") ), $customerName , $customerEmail ); ?>
+            <?php echo $helper->__( $this->_message( $payment->getAdditionalInformation("status_id") ), $customerName , $customerEmail ); ?>
         </h4>
         <div class="yapay_table_list_data_payment">
             <ul>

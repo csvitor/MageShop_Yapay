@@ -1,0 +1,70 @@
+<?php if($order = $this->getInfo()->getOrder()): ?>
+    <?php $payment = $order->getPayment(); ?>
+    <?php $flagCard = $this->_getFlag($this->_getInforTransactionPaymentYapay('payment_method_id')); ?>
+    <div class="yapay_info_payment">
+        <table>
+            <thead>
+                <tr>
+                    <th><?php echo $this->__('Transação');?></th>
+                    <th><?php echo $this->__('Meio de pagamento');?></th>
+                    <th><?php echo $this->__('Bandeira');?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo $this->escapeHtml("#" . $this->transactionIdYapay()) ?></td>
+                    <td><?php echo $this->escapeHtml($payment->getMethodInstance()->getTitle()) ?></td>
+                    <td>
+                        <img src="<?php echo $this->getSkinUrl('mageshop/yapay/images/'.$this->escapeHtml($flagCard).'-flag.svg') ?>">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+    <style>
+        
+    .yapay_info_payment table {
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 600px;
+        margin: 10px auto;
+    }
+    .yapay_info_payment th, .yapay_info_payment td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #FFF;
+    }
+    .yapay_info_payment th {
+        background-color: #0068ae;
+        color: #FFF;
+    }
+    .yapay_info_payment td {
+        background: #155885;
+        color: #FFF;
+      
+    }
+    .yapay_info_payment td img {
+        width: 60px;
+    }
+    </style>
+
+<?php else:  ?>
+    
+    <div class="yapay_icon_card" style="display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;">
+        <img 
+        src="<?php echo $this->escapeHtml(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/mageshop/yapay/images/cartao-de-credito.png') ?>" 
+        width="40px"
+        style="margin-left: 5px; margin-right: 10px;"
+        alt="<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>">
+        <strong style="font-size: 1.1em;font-weight: 500;color: #111;"><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></strong>
+    </div>
+<?php endif; ?>
+
