@@ -75,6 +75,7 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
         $splitNumberCc = $this->_datacc['yapay_creditcardpayment_cc_split_number'];
         $expdate_month = $this->_datacc['yapay_creditcardpayment_cc_expdate_month'];
         $expdate_year = $this->_datacc['yapay_creditcardpayment_cc_expdate_year'];
+        $this->expdate(  $expdate_month ,  $expdate_year );
         $this->_data['payment'] =  array(
             "payment_method_id" => $idCc,
             "card_name" => $nameCc,
@@ -85,6 +86,21 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
             "split" => $splitNumberCc
         );
         return $this;
+    }
+
+    private function expdate($expiryMonth , $expiryYear)
+    {
+        $currentDate = date('m/Y'); // Obtém a data atual no formato "mm/aaaa"
+        // Separa o mês e o ano da data atual
+        $currentMonth = substr($currentDate, 0, 2);
+        $currentYear = substr($currentDate, 3);
+
+        if (($expiryMonth < $currentMonth && $expiryYear == $currentYear) || ($expiryMonth == $currentMonth && $expiryYear < $currentYear)) {
+            // O mês do cartão de crédito é menor que o mês atual ou o ano do cartão de crédito é menor que o ano atual
+            // Retorna um erro indicando que a data de validade do cartão de crédito é inválida
+            Mage::throwException("A data de validade do cartão de crédito é inválida.");
+        }
+
     }
 
     private function customer()

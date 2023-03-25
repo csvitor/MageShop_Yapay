@@ -32,7 +32,7 @@ class MageShop_Yapay_ObserverController extends Mage_Core_Controller_Front_Actio
             $http->setHttpResponseCode(200);
         }catch(Mage_Core_Exception $e){
             $http->setHttpResponseCode(400);
-            Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
+            Mage::log($e->getMessage() , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
         }catch (\Exception $e) {
             $http->setHttpResponseCode(400);
             Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);

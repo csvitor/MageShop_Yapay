@@ -37,6 +37,7 @@
     width: auto;
     margin-left: 10px;
     color: #001a9d;
+    margin-bottom: 0px;
 }
 
 .container_yapay_payment_cc .yapay_data_payment_cc h4.yapay_payment_status {
@@ -60,14 +61,20 @@
     margin-left: 5px;
 }
 .container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     position: relative;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
     display: inline-block;
 }
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_paid_payment_cc {
+    background-image: url(../../images/paid.png);
+}
 .container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_pending_payment_cc {
     background-image: url(../../images/pending.png);
+}
+.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_canceled_payment_cc {
+    background-image: url(../../images/canceled.png);
 }

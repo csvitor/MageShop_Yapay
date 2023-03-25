@@ -39,7 +39,7 @@ class MageShop_Yapay_Block_Payment_Status extends Mage_Payment_Block_Info{
     {
         switch ($status_code) {
             case 6:
-            return "yapay_status_peid_payment_cc";
+            return "yapay_status_paid_payment_cc";
             break;
             case 7:
             case 89:
