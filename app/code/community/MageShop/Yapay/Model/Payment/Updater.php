@@ -196,11 +196,11 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
     {
         $order = $this->_order();
         // update state yapay
-        if ($order->getStatus() == 'holded') {
+        if ($order->getStatus() == Mage_Sales_Model_Order::STATE_HOLDED) {
             return $this;
         }
-        $order->setState(Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW, true);
-        $order->setStatus('holded');
+        $order->setState(Mage_Sales_Model_Order::STATE_HOLDED, true);
+        $order->setStatus(Mage_Sales_Model_Order::STATE_HOLDED);
         $order->addStatusHistoryComment($comment, false);
         $order->save();
     }
@@ -232,6 +232,6 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
             if ($order->canUnhold()) {
                 $order->unhold();
             }
-        } 
+        }
     }
 }
