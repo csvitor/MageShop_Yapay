@@ -106,7 +106,23 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
     private function customer()
     {
         $quote = $this->getCheckout()->getQuote();
-        $number_taxvat = $quote->getCustomerTaxvat();
+        if(isset($this->_datacc['yapay_creditcardpayment_cc_cpf'])){
+            $number_taxvat = $this->_datacc['yapay_creditcardpayment_cc_cpf'];
+        }else{
+            $attrSelectedCPF = $this->_helperDoc->getAttrCpfArray();
+            if($attrSelectedCPF != null && isset($attrSelectedCPF[0], $attrSelectedCPF[1])){
+                switch ($attrSelectedCPF[0]) {
+                    case 'customer':
+                        $number_taxvat = $quote->getCustomer()->getData($attrSelectedCPF[1]);
+                        break;
+                    case 'billing':
+                        $number_taxvat = $quote->getBillingAddress()->getData($attrSelectedCPF[1]);
+                        break;
+                }
+            }else{
+                $number_taxvat = $quote->getCustomerTaxvat();
+            }
+        }
         if($this->_helperDoc->cnpj_cpf($number_taxvat) == false){
             Mage::throwException("CPF/CNPJ invalido.");
         }else{

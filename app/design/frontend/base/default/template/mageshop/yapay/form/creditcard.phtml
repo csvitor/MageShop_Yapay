@@ -27,7 +27,7 @@ $helper = Mage::helper("mageshop_yapay/data");
                     name="payment[<?php echo $_code ?>_cc_name]" 
                     placeholder="JOHN DOE" onkeypress="return apenasLetras(event,this);"/>
                 </div>
-            </li>            
+            </li>          
 
             <li class="fields">
                 <div class="card-data">
@@ -87,11 +87,25 @@ $helper = Mage::helper("mageshop_yapay/data");
                     <label for="<?php echo $_code ?>_cc_split_number"><?php echo $helper->__('Parcelas') ?> </label><br/>
                     <select id="<?php echo $_code ?>_cc_split_number" style="width:252px;" 
                     name="payment[<?php echo $_code ?>_cc_split_number]" 
-                    class="required-entry validate-installment" onchange="document.getElementById('<?php echo $_code ?>_cc_split_number_value').value = this.options[this.selectedIndex].text.replace(/.*R\$/,'').replace(/\,/,'.');">
+                    class="required-entry validate-installment-yapay" 
+                    onchange="document.getElementById('<?php echo $_code ?>_cc_split_number_value').value = this.options[this.selectedIndex].text.replace(/.*R\$/,'').replace(/\,/,'.');">
                     <option value="1">Parcela(s)</option>
                     </select>
                 </div>
             </li>
+
+            <?php if($helper->getCaptureTaxCc() == '1'): ?>
+
+                <label for="<?php echo $_code ?>_cc_cpf"> <?php echo $helper->__('CPF') ?> </label>      
+                <div class="input-box">
+                    <input type="text" id="<?php echo $_code ?>_cc_cpf" 
+                    name="payment[<?php echo $_code ?>_cc_cpf]" 
+                    title="<?php echo $helper->__('CPF') ?>" 
+                    class="required-entry validate-document-cpf"
+                    autocomplete="off"/>
+                </div>
+
+            <?php endif; ?>
         </ul>
 
         <script type="text/javascript">
@@ -108,7 +122,11 @@ $helper = Mage::helper("mageshop_yapay/data");
                     getSplitValues();
                 });
 
+                $yapay('#yapay_creditcardpayment_cc_cpf').on('input', function() {
+                    var cpf = $yapay(this).val().replace(/\D/g, '');
+                    var cpfFormatado = formatarCPF(cpf);
+                    $yapay(this).val(cpfFormatado);
+                });
             })
         </script>
 </fieldset>
-<script></script>

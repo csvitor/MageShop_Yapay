@@ -121,8 +121,9 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
             'yapay_creditcardpayment_cc_split_number'       => $data['yapay_creditcardpayment_cc_split_number'],
             'yapay_creditcardpayment_cc_split_number_value' => $data['yapay_creditcardpayment_cc_split_number_value'],
             'yapay_creditcardpayment_cc_document'           => $data['yapay_creditcardpayment_cc_document'],
-            'yapay_creditcardpayment_cc_finger_print'       => $data['yapay_creditcardpayment_cc_finger_print']
+            'yapay_creditcardpayment_cc_finger_print'       => $data['yapay_creditcardpayment_cc_finger_print'],
+            'yapay_creditcardpayment_cc_cpf'                => isset($data['yapay_creditcardpayment_cc_cpf']) ? $data['yapay_creditcardpayment_cc_cpf'] : null,
         ];
-        return json_encode($array);
+        return json_encode(array_filter($array));
     }
 }

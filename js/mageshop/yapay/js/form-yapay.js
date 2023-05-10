@@ -151,6 +151,21 @@ function getSplitValues() {
     }
 }
 
+function formatarCPF(cpf) {
+  cpf = cpf.replace(/\D/g, '');
+
+  var cpfFormatado = '';
+  for (var i = 0; i < cpf.length; i++) {
+    if (i === 3 || i === 6) {
+      cpfFormatado += '.';
+    } else if (i === 9) {
+      cpfFormatado += '-';
+    }
+    cpfFormatado += cpf.charAt(i);
+  }
+  
+  return cpfFormatado;
+}
 
 function generateRegexRange(start, end) {
     var regexResult = '';
@@ -193,7 +208,7 @@ function getEloPattern(ccNumber) {
 
 Validation.addAllThese([
     [
-      "validate-document",
+      "validate-document-cnpj",
       "Documento inválido. Verifique por favor",
       function (v) {
         const tamDocument = v.length;
@@ -280,6 +295,42 @@ Validation.addAllThese([
         } else {
           return false;
         }
+      },
+    ],
+    [
+      "validate-document-cpf",
+      "Documento inválido. Verifique por favor",
+      function (cpf) {
+        cpf = cpf.replace(/\D/g, "");
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+          return false;
+        }
+        var soma = 0;
+        var resto;
+        for (var i = 1; i <= 9; i++) {
+          soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        }
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) {
+          resto = 0;
+        }
+        if (resto !== parseInt(cpf.substring(9, 10))) {
+          return false;
+        }
+        soma = 0;
+        for (var i = 1; i <= 10; i++) {
+          soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) {
+          resto = 0;
+        }
+        if (resto !== parseInt(cpf.substring(10, 11))) {
+          return false;
+        }
+        
+        return true;
+      
       },
     ],
     [
@@ -381,10 +432,10 @@ Validation.addAllThese([
     ],
   
     [
-      "validate-installment",
+      "validate-installment-yapay",
       "Número de parcelas inválida. Verifique por favor",
       function (v) {
-        if (v == 0) {
+        if (v == 0 || v == '') {
           return false;
         } else {
           return true;

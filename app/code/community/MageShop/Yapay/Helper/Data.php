@@ -10,6 +10,7 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     const MS_YAPAY_COUNT_MIN_SPLIT = "payment/yapay_creditcardpayment/min_installment";
     const MS_YAPAY_SANDBOX = "https://api.intermediador.sandbox.yapay.com.br/";
     const MS_YAPAY_API = "https://api.intermediador.yapay.com.br/";
+    const MS_YAPAY_CPF_FORM_CC_ENABLE = "payment/yapay_creditcardpayment/capture_tax";
 
     public function getCountMaxSprit()
     {
@@ -29,6 +30,10 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     }
     public function getEnvironment(){
         return Mage::getStoreConfig(self::MS_YAPAY_KEY_ENV);
+    }
+
+    public function getCaptureTaxCc(){
+        return Mage::getStoreConfig(self::MS_YAPAY_CPF_FORM_CC_ENABLE);
     }
 
     public function getEnvironmentFingerPrint()

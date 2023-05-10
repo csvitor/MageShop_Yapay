@@ -2,6 +2,7 @@
 
 class MageShop_Yapay_Helper_Documents extends MageShop_Yapay_Helper_Data{
 
+    const MS_YAPAY_CUSTOMER_CPF_ATTR = "payment/mageshop_yapay_custompayment/customer_cpf_attribute";
 
     public function cnpj($cnpj)
     {
@@ -89,6 +90,19 @@ class MageShop_Yapay_Helper_Documents extends MageShop_Yapay_Helper_Data{
                 return $this->cnpj($docFormatado);
             }
         }
+    }
 
+    public function getCpfAttr()
+    {
+        return Mage::getStoreConfig(self::MS_YAPAY_CUSTOMER_CPF_ATTR);
+    }
+
+    public function getAttrCpfArray()
+    {
+        $attr = $this->getCpfAttr();
+        if(!empty($attr) && strlen($attr) > 0){
+            $arr_select = explode("|", $attr);
+        }
+        return isset($arr_select) ? $arr_select : null;
     }
 }
