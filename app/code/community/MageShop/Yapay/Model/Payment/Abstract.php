@@ -17,20 +17,27 @@ class MageShop_Yapay_Model_Payment_Abstract extends Mage_Payment_Model_Method_Ab
      * @return array
      */
     public function _validity($resYapay){
+
         $response['general_errors'] = false;
         $message = $resYapay['message_response']['message'];
         $additionalData = isset($resYapay['error_response']['additional_data']) ? $resYapay['error_response']['additional_data'] : null;
+        $additionalData = ($additionalData == null && isset($resYapay['additional_data'])) ? $resYapay['additional_data'] : $additionalData;
+
         switch ($message) {
             case 'error':
                 if(isset($resYapay['error_response']['general_errors'])){
                     $response['error'] = $resYapay['error_response']['general_errors']['message'];
                     $response['code'] = $resYapay['error_response']['general_errors']['code'];
                 }
+                if(isset($resYapay['error_response']['general_errors'][0])){
+                    $response['error'] = $resYapay['error_response']['general_errors'][0]['message'];
+                    $response['code'] = $resYapay['error_response']['general_errors'][0]['code'];
+                }
                 if(isset($resYapay['error_response']['validation_errors'])){
                     $response['error'] = $resYapay['error_response']['validation_errors']['message'];
                     $response['code'] = $resYapay['error_response']['validation_errors']['code'];
                 }
-                if($additionalData['transaction_id'] == null || strlen($additionalData['transaction_id']) < 1){
+                if( empty($additionalData['transaction_id']) || $additionalData['transaction_id'] == null){
                     $response['general_errors'] = true;
                     return $response;
                 }else{
