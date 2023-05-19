@@ -100,6 +100,17 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
         }
         $info = $this->getInfoInstance();
         $info->setCheckNo($data->getCheckNo())->setCheckDate($data->getCheckDate());
+        $info->getQuote()->setYapayDiscount(0.0);
+        $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
+        $split_number = @$data->getYapayCreditcardpaymentCcSplitNumber();
+        if(!empty($split_number)){
+           $info->getQuote()->setYapayCcSplitNumber($split_number);
+        }
+        $_discount_helper = Mage::helper("mageshop_yapay/discount");
+        if($_discount_helper->getDiscountActiveCreditCard()){
+            $_discount_helper->setDiscountCc($info);
+        }
+        
         $dataAssign = $this->saveCcAssignData($data);
         $info->setAdditionalInformation("data", $dataAssign);
         return $this;

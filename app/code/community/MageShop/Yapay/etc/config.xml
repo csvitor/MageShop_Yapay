@@ -82,6 +82,19 @@
                 </observers>
             </sales_order_shipment_save_after>
         </events>
+
+        <sales>
+            <quote>
+                <totals>
+                    <yapay_discount>
+                        <class>MageShop_Yapay_Model_Quote_Address_Discount</class>
+                        <after>shipping</after>
+                        <before>grand_total</before>
+                    </yapay_discount>
+                </totals>
+            </quote>
+        </sales>
+
     </global>
     <frontend>
         <layout>
@@ -111,6 +124,8 @@
                 <order_status>pending</order_status>
                 <allowspecific>0</allowspecific>
                 <payment_action>order</payment_action>
+                <discount_installment>1</discount_installment>
+                <discount_label>Desconto (%s à vista)</discount_label>
             </yapay_creditcardpayment>
         </payment>
     </default>

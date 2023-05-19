@@ -62,4 +62,21 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig( self::MS_YAPAY_AVAILABLE_PAYMENT_METHOD );
     }
+
+    public function monetize($value)
+    {
+        if (empty($value)) {
+            return 0.00;
+        }
+        if (is_float($value)) {
+            return (float) number_format($value, 2, '.', '');
+        }
+        if (is_string($value) && strpos($value, ',') !== false) {
+            $value = str_replace(',', '.', $value);
+        }
+        $value = floor($value * 100) / 100;
+        $value = (float) number_format($value, 2, '.', '');
+        return $value;
+    }
+
 }

@@ -151,9 +151,14 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
         $invoice->addComment( (string) $comment , true, true);
         $invoice->save();
         $transactionSave->save();
+        // check if the order if is processing
+        if($order->getState() !== Mage_Sales_Model_Order::STATE_PROCESSING){
+            $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+        }if($order->getState() !== Mage_Sales_Model_Order::STATE_PROCESSING){
+            $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
+        }
         $status_history = $order->addStatusHistoryComment($comment);
         $status_history->setIsCustomerNotified(false); // Defina como "false" se não quiser notificar o cliente
-        
         $order->save();
         return true;
     }

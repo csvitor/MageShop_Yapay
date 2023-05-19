@@ -29,6 +29,7 @@
               <show_in_store>1</show_in_store>
               <validate>required-entry</validate>
             </auth_token>
+            
             <base_url>
               <label>Site Base Url</label>
               <frontend_type>text</frontend_type>
@@ -77,6 +78,9 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <validate>required-entry</validate>
+            <depends>
+                <active>1</active>
+            </depends>
           </title>
           <order_status translate="label">
             <label>New Order Status</label>
@@ -86,6 +90,9 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
           </order_status>
           <available_payment_methods translate="label">
             <label>Meios de Pagamento disponíveis</label>
@@ -95,6 +102,9 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
           </available_payment_methods>
           <installments translate="label">
             <label>Quantidades de parcelas</label>
@@ -105,24 +115,89 @@
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
             <validate>required-entry validate-number integer</validate>
+            <depends>
+                <active>1</active>
+            </depends>
           </installments>
           <min_installment translate="label">
             <label>Valor Mínimo de Parcela</label>
             <frontend_type>text</frontend_type>
-            <sort_order>60</sort_order>
+            <sort_order>50</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
             <validate>required-entry validate-number</validate>
+            <depends>
+                <active>1</active>
+            </depends>
           </min_installment>
+
+
+          <discount_active translate="label">
+            <label>Oferecer desconto para pagamento por parcela?</label>
+            <frontend_type>select</frontend_type>
+            <source_model>adminhtml/system_config_source_yesno</source_model>
+            <sort_order>51</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
+          </discount_active>
+
+          <discount_percentage translate="label">
+            <label>Defina o desconto (em %)</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>52</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <validate>required-entry validate-number</validate>
+            <depends>
+                <discount_active>1</discount_active>
+            </depends>
+            <comment><![CDATA[]]></comment>
+          </discount_percentage>
+
+          <discount_installment translate="label">
+            <label>Defina o número de parcelas com desconto</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>52</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <validate>required-entry validate-number</validate>
+            <depends>
+                <discount_active>1</discount_active>
+            </depends>
+            <comment><![CDATA[]]></comment>
+          </discount_installment>
+
+          <discount_label translate="label">
+            <label>Legenda Padrão para o Desconto</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>52</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <depends>
+                <discount_active>1</discount_active>
+            </depends>
+            <comment><![CDATA[]]></comment>
+          </discount_label>
+
           <capture_tax translate="label">
             <label>Capturar CPF no formulário de pagamento?</label>
             <frontend_type>select</frontend_type>
             <source_model>adminhtml/system_config_source_yesno</source_model>
-            <sort_order>40</sort_order>
+            <sort_order>60</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
           </capture_tax>
           <capture_name translate="label">
             <label>Capturar Nome Completo no formulário de pagamento?</label>
@@ -132,6 +207,9 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
           </capture_name>
           <capture_birth translate="label">
             <label>Capturar Data de nascimento no formulário de pagamento?</label>
@@ -141,6 +219,9 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
           </capture_birth>
           <capture_email translate="label">
             <label>Capturar E-mail no formulário de pagamento?</label>
@@ -150,6 +231,9 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
+            <depends>
+                <active>1</active>
+            </depends>
           </capture_email>
         </fields>
       </yapay_creditcardpayment>
