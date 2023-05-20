@@ -15,6 +15,7 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
     const YAPAY_TRANSACTION_CODE_STATE_PAID = 6;
     const YAPAY_TRANSACTION_CODE_STATE_CANCELED = 7;
     const YAPAY_TRANSACTION_CODE_STATE_REVIEW = 24;
+    const YAPAY_TRANSACTION_CODE_STATE_MONITORING = 87;
     const YAPAY_SUCCESS = 'success';
 
     protected $_data;
@@ -82,9 +83,11 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
         {
             case self::YAPAY_TRANSACTION_CODE_STATE_PENDING_PAYMENT:
             case 5:
-            case 87:
             case 88:
                 $this->_pending($this->_helper->__('Yapay Intermediador enviou automaticamente o status: %s', $comment));
+            break;
+            case self::YAPAY_TRANSACTION_CODE_STATE_MONITORING:
+                $this->_holded($this->_helper->__('Yapay Intermediador enviou automaticamente o status: %s', $comment));
             break;
             case self::YAPAY_TRANSACTION_CODE_STATE_PAID:
                 $this->_paid($this->_helper->__('Yapay Intermediador - Aprovado. Confirmado automaticamente o pagamento do pedido.'));
@@ -109,14 +112,9 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
     
     public function _status($comment)
     {
-        $order = $this->_order();
-
         // update state yapay
-        $payment = $order->getPayment();
-        $payment->setAdditionalInformation("status_id", $this->_transaction['status_id']);
-        $payment->setAdditionalInformation("token_transaction", $this->_transaction['token_transaction']);
-        $payment->setAdditionalInformation("status_name", $this->_transaction['status_name']);
-        
+        $this->updateInfo();
+        $order = $this->_order();
         $order->setState($order->getState(), true);
         $order->setStatus($order->getState());
         $order->addStatusHistoryComment($comment, false);
@@ -125,7 +123,6 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
 
     public function _paid($comment)
     {
-        
         // check if the order can be invoiced and status pedding or new
         $order = $this->_order();
         $this->is_holded();
@@ -133,13 +130,8 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
         if(!$order->canInvoice()) {
             return true;
         }
-
         // update state yapay
-        $payment = $order->getPayment();
-        $payment->setAdditionalInformation("status_id", $this->_transaction['status_id']);
-        $payment->setAdditionalInformation("token_transaction", $this->_transaction['token_transaction']);
-        $payment->setAdditionalInformation("status_name", $this->_transaction['status_name']);
-
+        $this->updateInfo();
         // Create the invoice
         $invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
         $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
@@ -163,18 +155,26 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
         return true;
     }
     
+    public function hasInvoices()
+    {
+        return (bool) ($this->_order()->hasInvoices()) > 0 ? true : false;
+    }
     public function _cancel($comment)
     {
         $order = $this->_order();
+       
+        if($this->hasInvoices()){
+            $this->_void($comment);
+            return true;
+        }
+
         $this->is_holded();
+        
         if (!$order->canCancel()) {
             return true;
         }
         // update state yapay
-        $payment = $order->getPayment();
-        $payment->setAdditionalInformation("status_id", $this->_transaction['status_id']);
-        $payment->setAdditionalInformation("token_transaction", $this->_transaction['token_transaction']);
-        $payment->setAdditionalInformation("status_name", $this->_transaction['status_name']);
+        $this->updateInfo();
          // Cancelar o pedido
         $order->cancel();
         $history = $order->addStatusHistoryComment($comment, true);
@@ -185,16 +185,21 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
 
     public function _pending($comment)
     {
+        $this->updateInfo();
         $order = $this->_order();
-        // update state yapay
-        $payment = $order->getPayment();
-        $payment->setAdditionalInformation("status_id", $this->_transaction['status_id']);
-        $payment->setAdditionalInformation("token_transaction", $this->_transaction['token_transaction']);
-        $payment->setAdditionalInformation("status_name", $this->_transaction['status_name']);
         $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
         $order->setStatus(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
         $order->addStatusHistoryComment($comment, false);
         $order->save();
+    }
+
+    public function updateInfo()
+    {
+        $order = $this->_order();
+        $payment = $order->getPayment();
+        $payment->setAdditionalInformation("status_id", $this->_transaction['status_id']);
+        $payment->setAdditionalInformation("token_transaction", $this->_transaction['token_transaction']);
+        $payment->setAdditionalInformation("status_name", $this->_transaction['status_name']);
     }
 
     public function _holded($comment)
@@ -216,15 +221,17 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
         if (!$order->canCreditmemo()) {
             return true;
         }
+        // update state yapay
+        $this->updateInfo();
         $service = Mage::getModel('sales/service_order', $order);
         $creditmemo = $service->prepareCreditmemo();
         $creditmemo->setRefundRequested(true);
         $creditmemo->setOfflineRequested(true);
         $creditmemo->register();
         $creditmemo->save();
-        $order->addStatusHistoryComment($comment, true);
+        $order->setStatus(Mage_Sales_Model_Order::STATE_CLOSED);
+        $order->addStatusHistoryComment($comment, false);
         $order->save();
-
     }
     /**
      * Pagamento em analise
@@ -232,11 +239,21 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
      */
     public function is_holded()
     {
-        $order = $this->_order();
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW) {
-            if ($order->canUnhold()) {
-                $order->unhold();
+        if ($this->to_monitoring()) {
+            if ($this->_order()->canUnhold()) {
+                $this->_order()->unhold();
             }
         }
+    }
+    /**
+     * payment review
+     *
+     * @return bool
+     */
+    public function to_monitoring()
+    {
+        return (bool)(
+            $this->_order()->getState() == Mage_Sales_Model_Order::STATE_HOLDED || $this->_order()->getState() == Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW
+        );
     }
 }

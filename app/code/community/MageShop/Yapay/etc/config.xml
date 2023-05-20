@@ -74,11 +74,11 @@
         <events>
             <sales_order_shipment_save_after>
                 <observers>
-                    <checkoutapi_observer>
+                    <mageshop_yapay_observer>
                         <type>singleton</type>
                         <class>mageshop_yapay/observer</class>
                         <method>shipmentCheckout</method>
-                    </checkoutapi_observer>
+                    </mageshop_yapay_observer>
                 </observers>
             </sales_order_shipment_save_after>
         </events>

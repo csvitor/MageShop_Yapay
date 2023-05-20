@@ -11,12 +11,14 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     const MS_YAPAY_SANDBOX = "https://api.intermediador.sandbox.yapay.com.br/";
     const MS_YAPAY_API = "https://api.intermediador.yapay.com.br/";
     const MS_YAPAY_CPF_FORM_CC_ENABLE = "payment/yapay_creditcardpayment/capture_tax";
+    const MS_YAPAY_CPF_FORM_CC_INTEREST_ACTIVE = "payment/yapay_creditcardpayment/interest_active";
+    const MS_YAPAY_CPF_FORM_CC_INSTALLMENT_INTEREST = "payment/yapay_creditcardpayment/installment_interest";
 
-    public function getCountMaxSprit()
+    public function getCountMaxSplit()
     {
         return (int) Mage::getStoreConfig(self::MS_YAPAY_COUNT_MAX_SPLIT);
     }
-    public function getCountMinSprit()
+    public function getCountMinSplit()
     {
         return (int) Mage::getStoreConfig(self::MS_YAPAY_COUNT_MIN_SPLIT);
     }
@@ -24,18 +26,12 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig(self::MS_YAPAY_TOKEN);
     }
-    public function getKeyKonduto()
-    {
-        return Mage::getStoreConfig(self::MS_YAPAY_KEY_KONDUTO);
-    }
     public function getEnvironment(){
         return Mage::getStoreConfig(self::MS_YAPAY_KEY_ENV);
     }
-
     public function getCaptureTaxCc(){
         return Mage::getStoreConfig(self::MS_YAPAY_CPF_FORM_CC_ENABLE);
     }
-
     public function getEnvironmentFingerPrint()
     {
         if ($this->getEnvironment() == 'sandbox') {
@@ -44,7 +40,6 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
     }
-
     public function getUrlEnvironment()
     {
         if ($this->getEnvironment() == 'sandbox') {
@@ -63,6 +58,14 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig( self::MS_YAPAY_AVAILABLE_PAYMENT_METHOD );
     }
 
+    public function getInterestActive()
+    {
+        return (bool) Mage::getStoreConfig( self::MS_YAPAY_CPF_FORM_CC_INTEREST_ACTIVE );
+    }
+    public function getInstallmentInterest()
+    {
+        return Mage::getStoreConfig( self::MS_YAPAY_CPF_FORM_CC_INSTALLMENT_INTEREST );
+    }
     public function monetize($value)
     {
         if (empty($value)) {

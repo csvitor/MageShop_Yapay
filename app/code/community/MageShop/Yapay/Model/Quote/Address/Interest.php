@@ -1,6 +1,6 @@
 <?php 
 
-class MageShop_Yapay_Model_Quote_Address_Discount extends Mage_Sales_Model_Quote_Address_Total_Abstract{
+class MageShop_Yapay_Model_Quote_Address_Interest extends Mage_Sales_Model_Quote_Address_Total_Abstract{
 
     private $_helper;
     /**
@@ -8,7 +8,7 @@ class MageShop_Yapay_Model_Quote_Address_Discount extends Mage_Sales_Model_Quote
      */
     public function __construct()
     {
-        $this->setCode('mageshop_yapay_desconto'); //
+        $this->setCode('mageshop_yapay_insterest'); //
         $this->_helper = Mage::helper("mageshop_yapay/discount");
     }
 
@@ -26,10 +26,12 @@ class MageShop_Yapay_Model_Quote_Address_Discount extends Mage_Sales_Model_Quote
              return $this;
          }
          $paymentCcYapay = ($address->getQuote()->getPayment()->getMethod() == MageShop_Yapay_Model_Payment_Method_Cc::PAY_CODE);
+         $split = (int) $address->getQuote()->getYapayCcSplitNumber();
+         $splitOk = ($split <= $this->_helper->getDiscountInstallmentCreditCard());
          $ammount = $address->getQuote()->getYapayDiscount();
-         if ($ammount < 0 && $ammount != null && $this->_helper->getSplitOk((int) $address->getQuote()->getYapayCcSplitNumber()) && $paymentCcYapay) {
+         if ($ammount < 0 && $ammount != null && $splitOk && $paymentCcYapay) {
              $this->_setBaseAmount($ammount);
-             $this->_setAmount($address->getQuote()->getStore()->convertPrice($ammount, false));
+             $this->_setAmount($address->getQuote()->getStore()->convertPrice($ammount, true));
              $address->setYapayDiscount($ammount);
              $address->setYapayBaseDiscount($ammount);
          } else {

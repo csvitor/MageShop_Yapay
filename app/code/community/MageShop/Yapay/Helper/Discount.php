@@ -7,35 +7,47 @@ class MageShop_Yapay_Helper_Discount extends MageShop_Yapay_Helper_Data
     const MS_YAPAY_CC_DISCOUNT_INSTALLMENT = "payment/yapay_creditcardpayment/discount_installment";
     const MS_YAPAY_CC_DISCOUNT_LABEL = "payment/yapay_creditcardpayment/discount_label";
 
-    public function getDiscountActiveCreditCard(){
+    public function getDiscountActiveCreditCard()
+    {
         return (bool) Mage::getStoreConfig(self::MS_YAPAY_CC_DISCOUNT_ENABLE);
     }
-    public function getDiscountPercentageCreditCard(){
+    public function getDiscountPercentageCreditCard()
+    {
         return (double) Mage::getStoreConfig(self::MS_YAPAY_CC_DISCOUNT_PERCENTAGE);
     }
-    public function getDiscountInstallmentCreditCard(){
+    public function getDiscountInstallmentCreditCard()
+    {
         return (double) Mage::getStoreConfig(self::MS_YAPAY_CC_DISCOUNT_INSTALLMENT);
     }
-    public function getDiscountLabelCreditCard(){
+    public function getDiscountLabelCreditCard()
+    {
         return $this->__(Mage::getStoreConfig(self::MS_YAPAY_CC_DISCOUNT_LABEL), $this->getDiscountPercentageCreditCard());
     }
 
-    public function setDiscountCc($info){
-
-        $valor_desconto = 0;
-        $grandTotal = $info->getQuote()->getGrandTotal();
-        $percentage = $this->getDiscountPercentageCreditCard();
-        if ($percentage > 0 && $percentage < 100) {
-            $valor_desconto = $this->monetize(-1 * $percentage * 0.01 * $grandTotal);
+    public function setDiscountCc($info)
+    {
+        $value_discount = 0;
+        if ($this->percentage()) {
+            $value_discount = $this->getDiscountCc($info->getQuote()->getGrandTotal(), false);
         }
-
-        if ($valor_desconto < 0) {
-            $info->getQuote()->setYapayDiscount($valor_desconto);
-            $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
+        if ($value_discount < 0 && $this->getSplitOk((int) $info->getQuote()->getYapayCcSplitNumber())) {
+            $info->getQuote()->setYapayDiscount($value_discount);
+        }else{
+            $info->getQuote()->setYapayDiscount(0.0);
         }
-
+        $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
     }
 
-    
-
+    public function getSplitOk($split)
+    {
+        return (bool) ($split <= $this->getDiscountInstallmentCreditCard());
+    }
+    public function percentage()
+    {
+        return (bool) ($this->getDiscountPercentageCreditCard() > 0 && $this->getDiscountPercentageCreditCard() < 100);
+    }
+    public function getDiscountCc($total, $convert = true)
+    {
+       return (float) $this->monetize((!$convert?-1:1) * $this->getDiscountPercentageCreditCard() * 0.01 * $total);
+    }
 }

@@ -48,17 +48,20 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
     private function transaction()
     {
         $shippingTitle = $this->_payment->getOrder()->getData('shipping_description');
+        $quote = $this->_payment->getOrder()->getQuote(); // obtém o objeto quote do pedido
         if($shippingTitle == NULL || empty($shippingTitle)){
             $shippingTitle = "Produto Virtual";
         }
         $shippingPrice = $this->_payment->getShippingAmount();
-        $discountAmount = $this->_payment->getDiscountAmount();
+        $discountAmount = (double) $quote->getYapayDiscount() < 0 ? abs($quote->getYapayDiscount()) : $quote->getYapayDiscount();
+    
         $this->_data ["transaction"] = array(
             "available_payment_methods" => $this->_helper->getAvailablePaymentMethodsCc(),
             "customer_ip" => Mage::helper('core/http')->getRemoteAddr(),
             "shipping_type" => $shippingTitle,
-            "shipping_price" => is_numeric( $discountAmount ) ? sprintf('%.2f', $shippingPrice) : $shippingPrice,
+            "shipping_price" => is_numeric( $shippingPrice ) ? sprintf('%.2f', $shippingPrice) : $shippingPrice,
             "price_discount" => is_numeric( $discountAmount ) ? sprintf('%.2f',$discountAmount) : 0,
+            "price_additional" => 0,
             "url_notification" => Mage::getUrl('yapay/observer/postback'),
             "free" => "mod_m1_mageshop",
             "order_number" => $this->_payment->getOrder()->getQuote()->getReservedOrderId()
