@@ -9,7 +9,7 @@ class MageShop_Yapay_Model_Quote_Address_Interest extends Mage_Sales_Model_Quote
     public function __construct()
     {
         $this->setCode('mageshop_yapay_insterest'); //
-        $this->_helper = Mage::helper("mageshop_yapay/discount");
+        $this->_helper = Mage::helper("mageshop_yapay/interest");
     }
 
      /**
@@ -26,19 +26,18 @@ class MageShop_Yapay_Model_Quote_Address_Interest extends Mage_Sales_Model_Quote
              return $this;
          }
          $paymentCcYapay = ($address->getQuote()->getPayment()->getMethod() == MageShop_Yapay_Model_Payment_Method_Cc::PAY_CODE);
-         $split = (int) $address->getQuote()->getYapayCcSplitNumber();
-         $splitOk = ($split <= $this->_helper->getDiscountInstallmentCreditCard());
-         $ammount = $address->getQuote()->getYapayDiscount();
-         if ($ammount < 0 && $ammount != null && $splitOk && $paymentCcYapay) {
+         $apply = $this->_helper->applyInterest($address->getQuote()->getYapayCcSplitNumber());
+         $ammount = $address->getQuote()->getYapayInterest();
+         if ($ammount > 0 && $ammount != null && $apply && $paymentCcYapay) {
              $this->_setBaseAmount($ammount);
-             $this->_setAmount($address->getQuote()->getStore()->convertPrice($ammount, true));
-             $address->setYapayDiscount($ammount);
+             $this->_setAmount($address->getQuote()->getStore()->convertPrice($ammount, false));
+             $address->setYapayInterest($ammount);
              $address->setYapayBaseDiscount($ammount);
          } else {
              $this->_setBaseAmount(0.00);
              $this->_setAmount(0.00);
-             $address->setYapayDiscount(0.00);
-             $address->setYapayBaseDiscount(0.00);
+             $address->setYapayInterest(0.00);
+             $address->setYapayBaseInterest(0.00);
          }
          return $this;
      }
@@ -51,12 +50,12 @@ class MageShop_Yapay_Model_Quote_Address_Interest extends Mage_Sales_Model_Quote
       */
      public function fetch(Mage_Sales_Model_Quote_Address $address)
      {
-         if ($address->getYapayDiscount() != 0 && $address->getAddressType() == 'shipping') {
+         if ($address->getYapayInterest() != 0 && $address->getAddressType() == 'shipping') {
             $address->addTotal(array
             (
                 'code' => $this->getCode(),
-                'title' => Mage::helper('checkout')->__($this->_helper->getDiscountLabelCreditCard()),
-                'value' => $address->getYapayDiscount(),
+                'title' => $this->_helper->__("Juros de %d%%", $this->_helper->percentage),
+                'value' => $address->getYapayInterest(),
             ));
          }
  

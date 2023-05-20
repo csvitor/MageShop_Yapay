@@ -53,7 +53,7 @@ class MageShop_Yapay_Model_Quote_Address_Discount extends Mage_Sales_Model_Quote
             $address->addTotal(array
             (
                 'code' => $this->getCode(),
-                'title' => Mage::helper('checkout')->__($this->_helper->getDiscountLabelCreditCard()),
+                'title' => $this->_helper->getDiscountLabelCreditCard(),
                 'value' => $address->getYapayDiscount(),
             ));
          }

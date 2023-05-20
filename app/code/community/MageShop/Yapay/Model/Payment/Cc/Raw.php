@@ -53,15 +53,17 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
             $shippingTitle = "Produto Virtual";
         }
         $shippingPrice = $this->_payment->getShippingAmount();
-        $discountAmount = (double) $quote->getYapayDiscount() < 0 ? abs($quote->getYapayDiscount()) : $quote->getYapayDiscount();
-    
+        $discountAmount = $this->_payment->getOrder()->getDiscountAmount();
+        $discountAmountCc = $this->_payment->getOrder()->getQuote()->getYapayDiscount();
+        $discount = $this->_helper->monetize(-1 * ($discountAmount + $discountAmountCc));
+        $additional = $this->_payment->getOrder()->getQuote()->getYapayInterest();
         $this->_data ["transaction"] = array(
             "available_payment_methods" => $this->_helper->getAvailablePaymentMethodsCc(),
             "customer_ip" => Mage::helper('core/http')->getRemoteAddr(),
             "shipping_type" => $shippingTitle,
             "shipping_price" => is_numeric( $shippingPrice ) ? sprintf('%.2f', $shippingPrice) : $shippingPrice,
-            "price_discount" => is_numeric( $discountAmount ) ? sprintf('%.2f',$discountAmount) : 0,
-            "price_additional" => 0,
+            "price_discount" => ($discount > 0) ? sprintf('%.2f', $discount) : 0,
+            "price_additional" => ($additional > 0) ? sprintf('%.2f', $additional) : 0,
             "url_notification" => Mage::getUrl('yapay/observer/postback'),
             "free" => "mod_m1_mageshop",
             "order_number" => $this->_payment->getOrder()->getQuote()->getReservedOrderId()

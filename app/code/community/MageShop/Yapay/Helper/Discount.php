@@ -35,12 +35,11 @@ class MageShop_Yapay_Helper_Discount extends MageShop_Yapay_Helper_Data
         }else{
             $info->getQuote()->setYapayDiscount(0.0);
         }
-        $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
     }
 
     public function getSplitOk($split)
     {
-        return (bool) ($split <= $this->getDiscountInstallmentCreditCard());
+        return (bool) (!empty($split) && $split <= $this->getDiscountInstallmentCreditCard());
     }
     public function percentage()
     {

@@ -91,6 +91,11 @@
                         <after>shipping</after>
                         <before>grand_total</before>
                     </yapay_discount>
+                    <yapay_interest>
+                        <class>MageShop_Yapay_Model_Quote_Address_Interest</class>
+                        <after>shipping</after>
+                        <before>grand_total</before>
+                    </yapay_interest>
                 </totals>
             </quote>
         </sales>

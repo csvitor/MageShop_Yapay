@@ -84,7 +84,6 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
         return $this;
     }
     
-
      /**
      *  Essa função é responsável por armazenar as informações do pagamento recebidas do formulário de checkout.
      *  Ela recebe um objeto Varien contendo os dados do formulário e os atribui à instância de informação do pagamento.
@@ -100,19 +99,27 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
         }
         $info = $this->getInfoInstance();
         $info->setCheckNo($data->getCheckNo())->setCheckDate($data->getCheckDate());
+
         $info->getQuote()->setYapayDiscount(0.0);
+        $info->getQuote()->setYapayInterest(0.0);
         $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
         $split_number = @$data->getYapayCreditcardpaymentCcSplitNumber();
         if(!empty($split_number)){
            $info->getQuote()->setYapayCcSplitNumber($split_number);
         }
+        $_interest_helper = Mage::helper("mageshop_yapay/interest");
+        if($_interest_helper->applyInterest($split_number)){
+            $_interest_helper->setInterestCc($info);
+            $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
+        }
         $_discount_helper = Mage::helper("mageshop_yapay/discount");
         if($_discount_helper->getDiscountActiveCreditCard()){
             $_discount_helper->setDiscountCc($info);
+            $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
         }
-        
         $dataAssign = $this->saveCcAssignData($data);
         $info->setAdditionalInformation("data", $dataAssign);
+        $info->getQuote()->setTotalsCollectedFlag(false)->collectTotals();
         return $this;
     }
     /**

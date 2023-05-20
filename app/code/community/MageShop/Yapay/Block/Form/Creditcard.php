@@ -47,12 +47,12 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
      */
     public function getInstallments($total)
     {
+      $_discount_helper = Mage::helper("mageshop_yapay/discount");
+      $_interest_helper = Mage::helper("mageshop_yapay/interest");
       $maxInstallments = $this->_helper->getCountMaxSplit();
       $minValueInstalment = $this->_helper->getCountMinSplit();
-      $dataInterest = $this->_helper->getInstallmentInterest();
+      $dataInterest = $_interest_helper->getInstallmentInterest();
       $dataInterest = unserialize($dataInterest);
-
-      $_discount_helper = Mage::helper("mageshop_yapay/discount");
       $value_discount = 0;
       $percentage = 0;
       if($_discount_helper->getDiscountActiveCreditCard()){
@@ -61,7 +61,6 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
             $value_discount = $_discount_helper->getDiscountCc($total);
         }
       }
-
       foreach ($dataInterest as $key => $value) {
         $installmentInterest[] = $value['from_qty'];
       }
@@ -72,7 +71,6 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
       for ($i = 0; $i < $maxInstallments; $i++) {
         $times = $i + 1;
         $discounLabel = '';
-    
         if($value_discount > 0 && $_discount_helper->getSplitOk(($i + 1))){
           $valuePortion = $this->_helper->monetize(( $total - $value_discount ) / ($i + 1));
           $valuePortion = number_format($valuePortion, 2);
@@ -81,7 +79,6 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
           $valuePortion = ($total / ($i + 1));
           $valuePortion = number_format($valuePortion, 2);
         }
-
         if (($i + 1) == 1) {
           if ($installmentInterest[0] == 0 || $installmentInterest[0] == null) {
             $arrayInstallments[] = $this->_helper->__("1x de R$$valuePortion%s sem juros", $discounLabel);
@@ -90,20 +87,15 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
             $interest = number_format($interest, 2);
             $valuePortion = $valuePortion + $interest;
             $valuePortion = number_format($valuePortion, 2);
-            $totalInterest = $interest * ($i + 1);
-            $totalInterest = number_format($totalInterest, 2);
-            $arrayInstallments[] = $this->_helper->__("1x de R$$valuePortion%s com juros total de R$$totalInterest", $discounLabel);
+            $arrayInstallments[] = $this->_helper->__("1x de R$$valuePortion%s com juros", $discounLabel);
           }
         } else if (isset($installmentInterest[$i]) && $installmentInterest[$i] != 0 && $installmentInterest[$i] != null) {
-          $valuePortion = ($total / ($i + 1));
           if ($valuePortion >= $minValueInstalment) {
             $interest = $valuePortion * ($installmentInterest[$i] / 100);
             $interest = number_format($interest, 2);
             $valuePortion = $valuePortion + $interest;
             $valuePortion = number_format($valuePortion, 2);
-            $totalInterest = $interest * ($i + 1);
-            $totalInterest = number_format($totalInterest, 2);
-            $arrayInstallments[] = $this->_helper->__("$times" . "x de R$$valuePortion%s com juros total de R$$totalInterest", $discounLabel);
+            $arrayInstallments[] = $this->_helper->__("$times" . "x de R$$valuePortion%s com juros", $discounLabel);
           }
         } else {
           if ($valuePortion >= $minValueInstalment) {

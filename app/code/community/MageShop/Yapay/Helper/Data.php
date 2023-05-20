@@ -57,15 +57,6 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig( self::MS_YAPAY_AVAILABLE_PAYMENT_METHOD );
     }
-
-    public function getInterestActive()
-    {
-        return (bool) Mage::getStoreConfig( self::MS_YAPAY_CPF_FORM_CC_INTEREST_ACTIVE );
-    }
-    public function getInstallmentInterest()
-    {
-        return Mage::getStoreConfig( self::MS_YAPAY_CPF_FORM_CC_INSTALLMENT_INTEREST );
-    }
     public function monetize($value)
     {
         if (empty($value)) {
