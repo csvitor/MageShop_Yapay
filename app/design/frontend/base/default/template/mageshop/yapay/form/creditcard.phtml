@@ -1,6 +1,6 @@
 <?php 
 $_code = $this->getMethodCode(); 
-$helper = Mage::helper("mageshop_yapay/data");
+$helper = $this->getHelper();
 $_helper_interest = Mage::helper("mageshop_yapay/interest");
 $intallmentsActive = $_helper_interest->getInterestActive();
 $totals = Mage::getSingleton('checkout/session')->getQuote()->getBaseGrandTotal();

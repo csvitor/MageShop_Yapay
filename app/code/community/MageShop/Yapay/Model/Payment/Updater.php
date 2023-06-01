@@ -162,14 +162,11 @@ class MageShop_Yapay_Model_Payment_Updater extends Mage_Core_Model_Abstract{
     public function _cancel($comment)
     {
         $order = $this->_order();
-       
         if($this->hasInvoices()){
             $this->_void($comment);
             return true;
         }
-
         $this->is_holded();
-        
         if (!$order->canCancel()) {
             return true;
         }

@@ -60,6 +60,20 @@
                     </pending_payment>
                 </states>
             </order>
+            <quote>
+                <totals>
+                    <yapay_discount>
+                        <class>MageShop_Yapay_Model_Quote_Address_Discount</class>
+                        <after>shipping</after>
+                        <before>grand_total</before>
+                    </yapay_discount>
+                    <yapay_interest>
+                        <class>MageShop_Yapay_Model_Quote_Address_Interest</class>
+                        <after>shipping</after>
+                        <before>grand_total</before>
+                    </yapay_interest>
+                </totals>
+            </quote>
         </sales>
         <fieldsets>
           <sales_convert_quote_payment>
@@ -82,23 +96,6 @@
                 </observers>
             </sales_order_shipment_save_after>
         </events>
-
-        <sales>
-            <quote>
-                <totals>
-                    <yapay_discount>
-                        <class>MageShop_Yapay_Model_Quote_Address_Discount</class>
-                        <after>shipping</after>
-                        <before>grand_total</before>
-                    </yapay_discount>
-                    <yapay_interest>
-                        <class>MageShop_Yapay_Model_Quote_Address_Interest</class>
-                        <after>shipping</after>
-                        <before>grand_total</before>
-                    </yapay_interest>
-                </totals>
-            </quote>
-        </sales>
 
     </global>
     <frontend>
@@ -123,7 +120,7 @@
         <payment>
             <yapay_creditcardpayment>
                 <model>mageshop_yapay/payment_method_cc</model>
-                <active>1</active>
+                <active>0</active>
                 <title>Cartão de Crédito - via Yapay</title>
                 <sort_order>1</sort_order>
                 <order_status>pending</order_status>
@@ -132,6 +129,24 @@
                 <discount_installment>1</discount_installment>
                 <discount_label>Desconto (%s à vista)</discount_label>
             </yapay_creditcardpayment>
+            <yapay_bankslip>
+                <model>mageshop_yapay/payment_method_bankslip</model>
+                <active>1</active>
+                <title>Boleto Bancário - via Yapay</title>
+                <sort_order>2</sort_order>
+                <order_status>new</order_status>
+                <allowspecific>0</allowspecific>
+                <payment_action>order</payment_action>
+            </yapay_bankslip>
+            <yapay_pix>
+                <model>mageshop_yapay/payment_method_pix</model>
+                <active>1</active>
+                <title>Pix - via Yapay</title>
+                <sort_order>2</sort_order>
+                <order_status>new</order_status>
+                <allowspecific>0</allowspecific>
+                <payment_action>order</payment_action>
+            </yapay_pix>
         </payment>
     </default>
 </config>

@@ -1,6 +1,6 @@
 <?php 
 
-class MageShop_Yapay_Model_Payment_Cc_Raw{
+class MageShop_Yapay_Model_Payment_Transactions_Raw{
 
     private $_helper;
     private $_helperDoc;
@@ -14,13 +14,47 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
     {
         $this->_helper = Mage::helper("mageshop_yapay/data");
         $this->_helperDoc = Mage::helper("mageshop_yapay/documents");
-        $this->_helperCc = Mage::helper("mageshop_yapay/cc");
     }
 
+    public function getDataBankslip($payment, $info)
+    {
+        $this->_payment = $payment;
+        $this->_info = $info;
+        $this->_helperCc = Mage::helper("mageshop_yapay/cc");
+        $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
+        $this
+        ->token_account()
+        ->customer()
+        ->contacts()
+        ->shippingAddress()
+        ->billingAddress()
+        ->transaction_product()
+        ->transaction()
+        ->paymentBankslip();
+        return $this->_data;
+    }
+    public function getDataPix($payment, $info)
+    {
+        $this->_payment = $payment;
+        $this->_info = $info;
+        $this->_helperCc = Mage::helper("mageshop_yapay/cc");
+        $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
+        $this
+        ->token_account()
+        ->customer()
+        ->contacts()
+        ->shippingAddress()
+        ->billingAddress()
+        ->transaction_product()
+        ->transaction()
+        ->paymentPix();
+        return $this->_data;
+    }
     public function getDataCc($payment, $info)
     {
         $this->_payment = $payment;
         $this->_info = $info;
+        $this->_helperCc = Mage::helper("mageshop_yapay/cc");
         $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
         $this
         ->token_account()
@@ -31,7 +65,7 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
         ->billingAddress()
         ->transaction_product()
         ->transaction()
-        ->payment();
+        ->paymentCc();
         return $this->_data;
     }
 
@@ -71,7 +105,23 @@ class MageShop_Yapay_Model_Payment_Cc_Raw{
         return $this;
     }
 
-    private function payment()
+    private function paymentBankslip()
+    {
+        $this->_data['payment'] =  array(
+            "payment_method_id" => "6",
+            "billet_date_expiration" => "03/06/2023",
+        );
+        return $this;
+    }
+    private function paymentPix()
+    {
+        $this->_data['payment'] =  array(
+            "payment_method_id" => "27",
+            "split" => "1"
+        );
+        return $this;
+    }
+    private function paymentCc()
     {
         $numberCc = preg_replace('/[^0-9]/is', '', $this->_datacc['yapay_creditcardpayment_cc_number']);
         $idCc = $this->_helperCc->getCardTypeYapay($numberCc);

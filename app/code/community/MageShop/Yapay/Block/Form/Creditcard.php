@@ -64,9 +64,10 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
       foreach ($dataInterest as $key => $value) {
         $installmentInterest[] = $value['from_qty'];
       }
-      $arrayInstallments[0] = "Select Installment";
+      
       if ($maxInstallments == 0) {
-        $arrayInstallments[] = "1x de R$$total sem juros";
+        $arrayInstallments[1] = "1x de R$$total sem juros";
+        return $arrayInstallments;
       }
       for ($i = 0; $i < $maxInstallments; $i++) {
         $times = $i + 1;
@@ -75,35 +76,49 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
           $valuePortion = $this->_helper->monetize(( $total - $value_discount ) / ($i + 1));
           $valuePortion = number_format($valuePortion, 2);
           $discounLabel = $this->_helper->__(" desconto de %s%%", $percentage);
+          $valuePortion2f = number_format($valuePortion, 2, ",", ".");
         }else{
           $valuePortion = ($total / ($i + 1));
           $valuePortion = number_format($valuePortion, 2);
+          $valuePortion2f = number_format($valuePortion, 2, ",", ".");
         }
         if (($i + 1) == 1) {
           if ($installmentInterest[0] == 0 || $installmentInterest[0] == null) {
-            $arrayInstallments[] = $this->_helper->__("1x de R$$valuePortion%s sem juros", $discounLabel);
+            $arrayInstallments[$times] = $this->_helper->__("1x de R$$valuePortion%s sem juros", $discounLabel);
           } else {
             $interest = $valuePortion * ($installmentInterest[0] / 100);
             $interest = number_format($interest, 2);
             $valuePortion = $valuePortion + $interest;
             $valuePortion = number_format($valuePortion, 2);
-            $arrayInstallments[] = $this->_helper->__("1x de R$$valuePortion%s com juros", $discounLabel);
+            $valuePortion2f = number_format($valuePortion, 2, ",", ".");
+            $arrayInstallments[$times] = $this->_helper->__("1x de R$$valuePortion2f%s com juros", $discounLabel);
           }
         } else if (isset($installmentInterest[$i]) && $installmentInterest[$i] != 0 && $installmentInterest[$i] != null) {
-          if ($valuePortion >= $minValueInstalment) {
-            $interest = $valuePortion * ($installmentInterest[$i] / 100);
-            $interest = number_format($interest, 2);
-            $valuePortion = $valuePortion + $interest;
-            $valuePortion = number_format($valuePortion, 2);
-            $arrayInstallments[] = $this->_helper->__("$times" . "x de R$$valuePortion%s com juros", $discounLabel);
+          if ($valuePortion < $minValueInstalment) {
+            break;
           }
+          $interest = $valuePortion * ($installmentInterest[$i] / 100);
+          $interest = number_format($interest, 2);
+          $valuePortion = $valuePortion + $interest;
+          $valuePortion = number_format($valuePortion, 2);
+          $valuePortion2f = number_format($valuePortion, 2, ",", ".");
+          $arrayInstallments[$times] = $this->_helper->__("$times" . "x de R$$valuePortion2f%s com juros", $discounLabel);
         } else {
-          if ($valuePortion >= $minValueInstalment) {
-            $arrayInstallments[] = $this->_helper->__("$times" . "x de R$$valuePortion%s sem juros", $discounLabel);
+          if ($valuePortion < $minValueInstalment) {
+            break;
           }
+          $arrayInstallments[$times] = $this->_helper->__("$times" . "x de R$$valuePortion2f%s sem juros", $discounLabel);
         }
       }
       return $arrayInstallments;
     }
-
+    /**
+     * Retorna o helper do modulo
+     *
+     * @return MageShop_Yapay_Helper_Data
+     */
+    public function getHelper()
+    {
+      return $this->_helper;
+    }
 }
