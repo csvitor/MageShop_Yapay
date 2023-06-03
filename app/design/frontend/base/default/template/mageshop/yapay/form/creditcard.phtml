@@ -13,7 +13,7 @@ $splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
             <input type="hidden" id="url_controller" value="<?php echo Mage::getUrl('yapay'); ?>">
             <input type="hidden" id="<?php echo $_code ?>_cc_payment_code" name="payment[<?php echo $_code ?>_cc_payment_code]" class="required-entry" value=""/>
             <li>             
-                <label for="<?php echo $_code ?>_cc_number"> <?php echo $helper->__('Credit Card Number') ?> </label>      
+                <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $helper->__('Credit Card Number') ?> </label>      
                 <div class="input-box">
                     <input type="text" id="<?php echo $_code ?>_cc_number" 
                     name="payment[<?php echo $_code ?>_cc_number]" 
@@ -24,20 +24,20 @@ $splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
                 </div>
             </li>
             <li>
-                <label for="<?php echo $_code ?>_cc_owner"><?php echo $helper->__('Name on Card') ?> </label>
+                <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $helper->__('Name on Card') ?> </label>
                 <div class="input-box">
                     <input type="text" title="<?php echo $helper->__('Name on Card') ?>"
                     name="payment[<?php echo $_code ?>_cc_name]"
                     class="required-entry input-text validate-name" id="<?php echo $_code ?>_cc_owner" 
                     name="payment[<?php echo $_code ?>_cc_name]" 
-                    placeholder="JOHN DOE" onkeypress="return apenasLetras(event,this);"/>
+                    placeholder="" onkeypress="return apenasLetras(event,this);"/>
                 </div>
             </li>          
 
             <li class="fields">
                 <div class="card-data">
                     <div class="field card-expires_at">
-                        <label for="expires_at" class="required"> <?php echo $helper->__("Mês Vencimento") ?><em>*</em></label>
+                        <label for="expires_at" class="required"><em>*</em><?php echo $helper->__("Mês Vencimento") ?></label>
                         <div class="input-box">
                             <select name="payment[<?php echo $_code ?>_expiration_month]" class="input-text required-entry validate-expirymonth" >
                                 <option selected disabled><?php echo $helper->__("Month") ?></option>
@@ -57,7 +57,7 @@ $splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
                         </div>
                     </div>
                     <div class="field card-card_cvv">
-                        <label for="card_cvv" class="required"><?php echo $helper->__("Ano do Vencimento") ?><em>*</em></label>
+                        <label for="card_cvv" class="required"><em>*</em><?php echo $helper->__("Ano do Vencimento") ?></label>
                         <div class="input-box">
                             <select name="payment[<?php echo $_code ?>_expiration_yr]"  class="input-text required-entry validate-expiryyear" >
                                 <option selected disabled><?php echo $helper->__("Year") ?></option>
@@ -89,7 +89,7 @@ $splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
             <li>
                 <div class="input-box">
                     <input type="hidden" id="<?php echo $_code ?>_cc_split_number_value" name="payment[<?php echo $_code ?>_cc_split_number_value]"/>
-                    <label for="<?php echo $_code ?>_cc_split_number"><?php echo $helper->__('Parcelas') ?> </label><br/>
+                    <label for="<?php echo $_code ?>_cc_split_number" class="required"><em>*</em><?php echo $helper->__('Parcelas') ?> </label><br/>
                     <select id="<?php echo $_code ?>_cc_split_number" style="width:252px;" 
                     name="payment[<?php echo $_code ?>_cc_split_number]" 
                     class="required-entry validate-installment-yapay" 
@@ -105,7 +105,7 @@ $splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
                 </div>
             </li>
             <?php if($helper->getCaptureTaxCc() == '1'): ?>
-                <label for="<?php echo $_code ?>_cc_cpf"> <?php echo $helper->__('CPF') ?> </label>      
+                <label for="<?php echo $_code ?>_cc_cpf" class="required"><em>*</em> <?php echo $helper->__('CPF') ?> </label>      
                 <div class="input-box">
                     <input type="text" id="<?php echo $_code ?>_cc_cpf" 
                     name="payment[<?php echo $_code ?>_cc_cpf]" 

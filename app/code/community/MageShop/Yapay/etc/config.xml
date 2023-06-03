@@ -122,7 +122,7 @@
                 <model>mageshop_yapay/payment_method_cc</model>
                 <active>0</active>
                 <title>Cartão de Crédito - via Yapay</title>
-                <sort_order>1</sort_order>
+                <sort_order>0</sort_order>
                 <order_status>pending</order_status>
                 <allowspecific>0</allowspecific>
                 <payment_action>order</payment_action>
@@ -131,7 +131,7 @@
             </yapay_creditcardpayment>
             <yapay_bankslip>
                 <model>mageshop_yapay/payment_method_bankslip</model>
-                <active>1</active>
+                <active>0</active>
                 <title>Boleto Bancário - via Yapay</title>
                 <sort_order>2</sort_order>
                 <order_status>new</order_status>
@@ -140,7 +140,7 @@
             </yapay_bankslip>
             <yapay_pix>
                 <model>mageshop_yapay/payment_method_pix</model>
-                <active>1</active>
+                <active>0</active>
                 <title>Pix - via Yapay</title>
                 <sort_order>2</sort_order>
                 <order_status>new</order_status>

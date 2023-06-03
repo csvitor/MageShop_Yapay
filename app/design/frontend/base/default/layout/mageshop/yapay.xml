@@ -35,7 +35,7 @@
                 <block type="checkout/onepage_success" name="mageshop_yapay.success" template="mageshop/yapay/checkout/success.phtml" >
                     <block type="mageshop_yapay/payment_status" name="mageshop_yapay.creditcard" as="card" template="mageshop/yapay/checkout/info/creditcard.phtml"/>
                     <block type="mageshop_yapay/payment_status" name="mageshop_yapay.pix" as="pix" template="mageshop/yapay/checkout/info/pix.phtml"/>
-                    <block type="mageshop_yapay/payment_status" name="mageshop_yapay.bankslip" as="ticket" template="mageshop/yapay/checkout/info/bankslip.phtml"/>
+                    <block type="mageshop_yapay/payment_status" name="mageshop_yapay.bankslip" as="bankslip" template="mageshop/yapay/checkout/info/bankslip.phtml"/>
                 </block>
             </reference>
         </reference>

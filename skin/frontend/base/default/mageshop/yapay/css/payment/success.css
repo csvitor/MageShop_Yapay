@@ -1,5 +1,5 @@
 
-.container_yapay_payment_cc {
+.container_yapay_payment {
     width: 100%;
     max-width: 1000px;
     margin: auto;
@@ -12,7 +12,7 @@
     margin-bottom: 20px;
 }
 
-.container_yapay_payment_cc .vindi {
+.container_yapay_payment .vindi {
     width: 200px;
     height: 80px;
     background-image: url(../../images/logo-vindi.png);
@@ -24,7 +24,7 @@
     margin-top: 20px;
 }
 
-.container_yapay_payment_cc .yapay_data_payment_cc {
+.container_yapay_payment .yapay_data_payment {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -33,34 +33,34 @@
     flex-direction: row;
     align-content: center;
 }
-.container_yapay_payment_cc .yapay_data_payment_cc h2.yapay_payment_status {
+.container_yapay_payment .yapay_data_payment h2.yapay_payment_status {
     width: auto;
     margin-left: 10px;
     color: #001a9d;
     margin-bottom: 0px;
 }
 
-.container_yapay_payment_cc .yapay_data_payment_cc h4.yapay_payment_status {
+.container_yapay_payment .yapay_data_payment h4.yapay_payment_status {
     width: 100%;
     color: #666;
     margin-top: 5px;
     margin-bottom: 10px;
 }
 
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_table_list_data_payment {
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment {
     width: 100%;
     margin-top: 20px;
 }
 
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_table_list_data_payment ul li {
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment ul li {
     font-size: 1.1em;
     line-height: 1.9em;
 }
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_table_list_data_payment ul li b{
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment ul li b{
     color: #00a3ff;
     margin-left: 5px;
 }
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon {
+.container_yapay_payment .yapay_data_payment .yapay_payment_icon {
     width: 40px;
     height: 40px;
     position: relative;
@@ -69,12 +69,84 @@
     background-size: contain;
     display: inline-block;
 }
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_paid_payment_cc {
+.container_yapay_payment .yapay_data_payment .yapay_payment_icon.yapay_status_paid_payment {
     background-image: url(../../images/paid.png);
 }
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_pending_payment_cc {
+.container_yapay_payment .yapay_data_payment .yapay_payment_icon.yapay_status_pending_payment {
     background-image: url(../../images/pending.png);
 }
-.container_yapay_payment_cc .yapay_data_payment_cc .yapay_payment_icon.yapay_status_canceled_payment_cc {
+.container_yapay_payment .yapay_data_payment .yapay_payment_icon.yapay_status_canceled_payment {
     background-image: url(../../images/canceled.png);
+}
+
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment .copyCode input {
+    padding: 5px 10px;
+    line-height: 30px;
+    font-size: 1.1em;
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+    border-radius: 4px;
+    border: 0px;
+}
+
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment .copyCode button.fieldcopycode {
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    line-height: 30px;
+    font-size: 1.2em;
+    border: 3px solid;
+    border-color: #2591cf;
+    color: #FFF;
+    border-radius: 3px;
+    background: #00a3ff;
+    cursor: pointer;
+    display: block;
+}
+
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment button.button.btn-yapay {
+    display: inline-block;
+    background-color: #4CAF50;
+    border: 3px solid;
+    border-color: #38803b;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: auto;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+}
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment button.button.btn-yapay:hover {
+    background-color: #45a049;
+    border-color: #38863c;
+}
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment button.button.btn-yapay span {
+    display: inline-block;
+    position: relative;
+}
+  
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment button.button.btn-yapay span::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    bottom: -6px;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform 0.2s ease-in-out;
+}
+  
+.container_yapay_payment .yapay_data_payment .yapay_table_list_data_payment button.button.btn-yapay:hover span::after {
+    transform: scaleX(1);
 }

@@ -11,6 +11,8 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     const MS_YAPAY_SANDBOX = "https://api.intermediador.sandbox.yapay.com.br/";
     const MS_YAPAY_API = "https://api.intermediador.yapay.com.br/";
     const MS_YAPAY_CPF_FORM_CC_ENABLE = "payment/yapay_creditcardpayment/capture_tax";
+    const MS_YAPAY_CPF_FORM_PIX_ENABLE = "payment/yapay_pix/capture_tax";
+    const MS_YAPAY_CPF_FORM_BANKSLIP_ENABLE = "payment/yapay_bankslip/capture_tax";
     const MS_YAPAY_CPF_FORM_CC_INTEREST_ACTIVE = "payment/yapay_creditcardpayment/interest_active";
     const MS_YAPAY_CPF_FORM_CC_INSTALLMENT_INTEREST = "payment/yapay_creditcardpayment/installment_interest";
 
@@ -31,6 +33,14 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     }
     public function getCaptureTaxCc(){
         return Mage::getStoreConfig(self::MS_YAPAY_CPF_FORM_CC_ENABLE);
+    }
+
+    public function getCaptureTaxBankslip(){
+        return Mage::getStoreConfig(self::MS_YAPAY_CPF_FORM_BANKSLIP_ENABLE);
+    }
+
+    public function getCaptureTaxPix(){
+        return Mage::getStoreConfig(self::MS_YAPAY_CPF_FORM_PIX_ENABLE);
     }
     public function getEnvironmentFingerPrint()
     {

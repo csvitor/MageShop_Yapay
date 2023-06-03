@@ -9,9 +9,19 @@ if($payment->getMethod() == 'yapay_creditcardpayment'){
         $creditcardBlock->setData('payment', $payment);
         echo $this->getChildHtml('card');
     }
-}elseif($payment->getMethod() == 'yapay_backslippayment'){
-    echo $this->getChildHtml('bankslip'); 
-}elseif($payment->getMethod() == 'yapay_pixpayment'){
-    echo $this->getChildHtml('pix');
+}elseif($payment->getMethod() == 'yapay_bankslip'){
+    $creditcardBlock = $this->getChild('bankslip');
+    if ($creditcardBlock) {
+        $creditcardBlock->setData('order', $order);
+        $creditcardBlock->setData('payment', $payment);
+        echo $this->getChildHtml('bankslip');
+    }
+}elseif($payment->getMethod() == 'yapay_pix'){
+    $creditcardBlock = $this->getChild('pix');
+    if ($creditcardBlock) {
+        $creditcardBlock->setData('order', $order);
+        $creditcardBlock->setData('payment', $payment);
+        echo $this->getChildHtml('pix');
+    }
 }
 ?>

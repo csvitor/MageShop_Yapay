@@ -15,8 +15,8 @@ class MageShop_Yapay_Model_Payment_Method_Bankslip extends MageShop_Yapay_Model_
     const URI_TRANSACTION = "api/v3/transactions/payment";
 
     protected $_code = self::PAY_CODE;
-    //protected $_formBlockType = 'mageshop_yapay/form_bankslip';
-    //protected $_infoBlockType = 'mageshop_yapay/info_bankslip';
+    protected $_formBlockType = 'mageshop_yapay/form_bankslip';
+    protected $_infoBlockType = 'mageshop_yapay/info_bankslip';
     protected $_canOrder = true;
     protected $_isInitializeNeeded = true;
     protected $_isGateway = true;
@@ -65,6 +65,8 @@ class MageShop_Yapay_Model_Payment_Method_Bankslip extends MageShop_Yapay_Model_
         $payment->setAdditionalInformation("status_id", $validity['status_id']);
         $payment->setAdditionalInformation("token_transaction", $validity['token_transaction']);
         $payment->setAdditionalInformation("status_name", $validity['status_name']);
+        $payment->setAdditionalInformation("payment",  $validity['payment']);
+        $payment->setAdditionalInformation("transaction",  $validity['transaction']);
         return $this;
       }
     }
@@ -113,7 +115,7 @@ class MageShop_Yapay_Model_Payment_Method_Bankslip extends MageShop_Yapay_Model_
     {
         $array = [
             'method' => $data['method'],
-            //'yapay_creditcardpayment_pix_cpf'  => isset($data['yapay_creditcardpayment_cc_cpf']) ? $data['yapay_creditcardpayment_cc_cpf'] : null,
+            'yapay_form_cpf'  => isset($data['yapay_bankslip_cpf']) ? $data['yapay_bankslip_cpf'] : null,
         ];
         return json_encode(array_filter($array));
     }
@@ -140,7 +142,7 @@ class MageShop_Yapay_Model_Payment_Method_Bankslip extends MageShop_Yapay_Model_
         $response = $_curl->getResponse();
         $log = array("URL" => $_url, "POSTFIELDS" => $raw, "RESPONSE" => $response);
         // grava o log
-        $_curl->setLogYapay("RESPONSE", var_export($log, true), "mageshop_yapay_cc_request.log");
+        $_curl->setLogYapay("RESPONSE", var_export($log, true), "mageshop_yapay_bankslip_request.log");
         if(empty($response) || $response == null){
             Mage::throwException($_helper->__("Algo não ocorreu bem. Por favor verifique suas informações ou altere a forma de pagamento."));
         }

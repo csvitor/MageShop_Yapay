@@ -9,6 +9,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
     private $_payment;
     private $_info;
     private $_datacc;
+    private $available_payment_methods;
 
     public function __construct()
     {
@@ -20,8 +21,8 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
     {
         $this->_payment = $payment;
         $this->_info = $info;
-        $this->_helperCc = Mage::helper("mageshop_yapay/cc");
         $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
+        $this->available_payment_methods = "6";
         $this
         ->token_account()
         ->customer()
@@ -37,8 +38,8 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
     {
         $this->_payment = $payment;
         $this->_info = $info;
-        $this->_helperCc = Mage::helper("mageshop_yapay/cc");
         $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
+        $this->available_payment_methods = "27";
         $this
         ->token_account()
         ->customer()
@@ -56,6 +57,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         $this->_info = $info;
         $this->_helperCc = Mage::helper("mageshop_yapay/cc");
         $this->_datacc = json_decode($this->_info->getAdditionalInformation("data"), true);
+        $this->available_payment_methods = $this->_helper->getAvailablePaymentMethodsCc();
         $this
         ->token_account()
         ->fingerPrint()
@@ -92,7 +94,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         $discount = $this->_helper->monetize(-1 * ($discountAmount + $discountAmountCc));
         $additional = $this->_payment->getOrder()->getQuote()->getYapayInterest();
         $this->_data ["transaction"] = array(
-            "available_payment_methods" => $this->_helper->getAvailablePaymentMethodsCc(),
+            "available_payment_methods" => $this->available_payment_methods,
             "customer_ip" => Mage::helper('core/http')->getRemoteAddr(),
             "shipping_type" => $shippingTitle,
             "shipping_price" => is_numeric( $shippingPrice ) ? sprintf('%.2f', $shippingPrice) : $shippingPrice,
@@ -161,8 +163,8 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
     private function customer()
     {
         $quote = $this->getCheckout()->getQuote();
-        if(isset($this->_datacc['yapay_creditcardpayment_cc_cpf'])){
-            $number_taxvat = $this->_datacc['yapay_creditcardpayment_cc_cpf'];
+        if(isset($this->_datacc['yapay_form_cpf'])){
+            $number_taxvat = $this->_datacc['yapay_form_cpf'];
         }else{
             $attrSelectedCPF = $this->_helperDoc->getAttrCpfArray();
             if($attrSelectedCPF != null && isset($attrSelectedCPF[0], $attrSelectedCPF[1])){

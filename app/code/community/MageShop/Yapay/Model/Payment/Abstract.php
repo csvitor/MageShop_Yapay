@@ -26,16 +26,24 @@ class MageShop_Yapay_Model_Payment_Abstract extends Mage_Payment_Model_Method_Ab
         switch ($message) {
             case 'error':
                 if(isset($resYapay['error_response']['general_errors'])){
-                    $response['error'] = $resYapay['error_response']['general_errors']['message'];
-                    $response['code'] = $resYapay['error_response']['general_errors']['code'];
+                    $general_errors = $resYapay['error_response']['general_errors'];
+                    $response['error'] = isset($general_errors['message']) ? $general_errors['message'] : "";
+                    $response['code'] = isset($general_errors['code']) ? $general_errors['code'] : 0;
                 }
                 if(isset($resYapay['error_response']['general_errors'][0])){
-                    $response['error'] = $resYapay['error_response']['general_errors'][0]['message'];
-                    $response['code'] = $resYapay['error_response']['general_errors'][0]['code'];
+                    $general_errors = $resYapay['error_response']['general_errors'][0];
+                    $response['error'] = $general_errors['message'];
+                    $response['code'] = $general_errors['code'];
                 }
                 if(isset($resYapay['error_response']['validation_errors'])){
-                    $response['error'] = $resYapay['error_response']['validation_errors']['message'];
-                    $response['code'] = $resYapay['error_response']['validation_errors']['code'];
+                    $validation_errors = $resYapay['error_response']['validation_errors'];
+                    $response['error'] = isset($validation_errors['message']) ? $validation_errors['message'] : '';
+                    $response['code'] = isset($validation_errors['code']) ? $validation_errors['code'] : '';
+                }
+                if(isset($resYapay['error_response']['validation_errors'][0])){
+                    $validation_errors = $resYapay['error_response']['validation_errors'][0];
+                    $response['error'] = isset($validation_errors['message_complete']) ? $validation_errors['message_complete'] : $validation_errors['message'];
+                    $response['code'] = $validation_errors['code'];
                 }
                 if( empty($additionalData['transaction_id']) || $additionalData['transaction_id'] == null){
                     $response['general_errors'] = true;
@@ -55,6 +63,8 @@ class MageShop_Yapay_Model_Payment_Abstract extends Mage_Payment_Model_Method_Ab
                 $response['status_id'] = $data_response['status_id'];
                 $response['token_transaction'] = $data_response['token_transaction'];
                 $response['status_name'] = $data_response['status_name'];
+                $response['payment'] = $data_response['payment'];
+                $response['transaction'] = $data_response;
         }
         return $response;
     }

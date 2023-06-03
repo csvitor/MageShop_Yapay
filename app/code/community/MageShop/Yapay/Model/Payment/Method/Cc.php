@@ -64,6 +64,8 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
         $payment->setAdditionalInformation("status_id", $validity['status_id']);
         $payment->setAdditionalInformation("token_transaction", $validity['token_transaction']);
         $payment->setAdditionalInformation("status_name", $validity['status_name']);
+        $payment->setAdditionalInformation("payment",  $validity['payment']);
+        $payment->setAdditionalInformation("transaction",  $validity['transaction']);
         return $this;
       }
     }
@@ -137,7 +139,7 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
             'yapay_creditcardpayment_cc_split_number_value' => $data['yapay_creditcardpayment_cc_split_number_value'],
             'yapay_creditcardpayment_cc_document'           => $data['yapay_creditcardpayment_cc_document'],
             'yapay_creditcardpayment_cc_finger_print'       => $data['yapay_creditcardpayment_cc_finger_print'],
-            'yapay_creditcardpayment_cc_cpf'                => isset($data['yapay_creditcardpayment_cc_cpf']) ? $data['yapay_creditcardpayment_cc_cpf'] : null,
+            'yapay_form_cpf'                => isset($data['yapay_creditcardpayment_cc_cpf']) ? $data['yapay_creditcardpayment_cc_cpf'] : null,
         ];
         return json_encode(array_filter($array));
     }
