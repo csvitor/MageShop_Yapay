@@ -28,7 +28,7 @@ class MageShop_Yapay_Helper_Discount extends MageShop_Yapay_Helper_Data
     {
         $value_discount = 0;
         if ($this->percentage()) {
-            $value_discount = $this->getDiscountCc($info->getQuote()->getGrandTotal(), false);
+            $value_discount = $this->getDiscountCc($info->getQuote()->getSubtotal(), false);
         }
         if ($value_discount < 0 && $this->getSplitOk((int) $info->getQuote()->getYapayCcSplitNumber())) {
             $info->getQuote()->setYapayDiscount($value_discount);

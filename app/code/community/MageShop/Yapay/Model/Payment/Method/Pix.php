@@ -16,7 +16,7 @@ class MageShop_Yapay_Model_Payment_Method_Pix extends MageShop_Yapay_Model_Payme
 
     protected $_code = self::PAY_CODE;
     protected $_formBlockType = 'mageshop_yapay/form_pix';
-    //protected $_infoBlockType = 'mageshop_yapay/info_pix';
+    protected $_infoBlockType = 'mageshop_yapay/info_pix';
     protected $_canOrder = true;
     protected $_isInitializeNeeded = true;
     protected $_isGateway = true;

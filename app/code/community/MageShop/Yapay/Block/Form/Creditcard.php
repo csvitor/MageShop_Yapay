@@ -45,8 +45,11 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
      * Function to get installments
      * @param mixed $total
      */
-    public function getInstallments($total)
+    public function getInstallments($quote)
     {
+
+      $total = $quote->getBaseGrandTotal();
+      $subtotal = $quote->getSubtotal();
       $_discount_helper = Mage::helper("mageshop_yapay/discount");
       $_interest_helper = Mage::helper("mageshop_yapay/interest");
       $maxInstallments = $this->_helper->getCountMaxSplit();
@@ -58,7 +61,7 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
       if($_discount_helper->getDiscountActiveCreditCard()){
         $percentage = $_discount_helper->getDiscountPercentageCreditCard();
         if ($_discount_helper->percentage()) {
-            $value_discount = $_discount_helper->getDiscountCc($total);
+            $value_discount = $_discount_helper->getDiscountCc($subtotal);
         }
       }
       foreach ($dataInterest as $key => $value) {
@@ -66,30 +69,27 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
       }
       
       if ($maxInstallments == 0) {
-        $arrayInstallments[1] = "1x de R$$total sem juros";
+        $arrayInstallments[1] = "1x de R$$total á vista";
         return $arrayInstallments;
       }
       for ($i = 0; $i < $maxInstallments; $i++) {
         $times = $i + 1;
         $discounLabel = '';
-        if($value_discount > 0 && $_discount_helper->getSplitOk(($i + 1))){
-          $valuePortion = $this->_helper->monetize(( $total - $value_discount ) / ($i + 1));
-          $valuePortion = number_format($valuePortion, 2);
+        if($value_discount > 0 && $_discount_helper->getSplitOk($times)){
+          $valuePortion = $this->_helper->monetize(( $total - $value_discount ) / $times);
           $discounLabel = $this->_helper->__(" desconto de %s%%", $percentage);
           $valuePortion2f = number_format($valuePortion, 2, ",", ".");
         }else{
-          $valuePortion = ($total / ($i + 1));
-          $valuePortion = number_format($valuePortion, 2);
+          $valuePortion = ($total / $times);
           $valuePortion2f = number_format($valuePortion, 2, ",", ".");
         }
-        if (($i + 1) == 1) {
+        if ($times == 1) {
           if ($installmentInterest[0] == 0 || $installmentInterest[0] == null) {
-            $arrayInstallments[$times] = $this->_helper->__("1x de R$$valuePortion%s sem juros", $discounLabel);
+            $arrayInstallments[$times] = $this->_helper->__("1x de R$$valuePortion2f%s sem juros", $discounLabel);
           } else {
             $interest = $valuePortion * ($installmentInterest[0] / 100);
             $interest = number_format($interest, 2);
             $valuePortion = $valuePortion + $interest;
-            $valuePortion = number_format($valuePortion, 2);
             $valuePortion2f = number_format($valuePortion, 2, ",", ".");
             $arrayInstallments[$times] = $this->_helper->__("1x de R$$valuePortion2f%s com juros", $discounLabel);
           }
@@ -100,7 +100,6 @@ class MageShop_Yapay_Block_Form_Creditcard extends Mage_Payment_Block_Form
           $interest = $valuePortion * ($installmentInterest[$i] / 100);
           $interest = number_format($interest, 2);
           $valuePortion = $valuePortion + $interest;
-          $valuePortion = number_format($valuePortion, 2);
           $valuePortion2f = number_format($valuePortion, 2, ",", ".");
           $arrayInstallments[$times] = $this->_helper->__("$times" . "x de R$$valuePortion2f%s com juros", $discounLabel);
         } else {
