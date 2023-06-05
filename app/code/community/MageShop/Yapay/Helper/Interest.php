@@ -50,7 +50,7 @@ class MageShop_Yapay_Helper_Interest extends MageShop_Yapay_Helper_Data
     {
         $value_interest = 0.0;
         if($this->getPercentage()){
-            $value_interest = $this->getValueInterest($info->getQuote()->getSubtotal());
+            $value_interest = $this->getValueInterest($info->getQuote()->getGrandTotal());
         }
         if ($value_interest > 0) {
             $info->getQuote()->setYapayInterest($value_interest);
