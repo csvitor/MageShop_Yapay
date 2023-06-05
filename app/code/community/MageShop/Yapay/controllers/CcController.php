@@ -10,13 +10,14 @@ class MageShop_Yapay_CcController extends Mage_Core_Controller_Front_Action{
         $minSplit = $_helper->getCountMinSplit();
         $maxSplit = $_helper->getCountMaxSplit();
         $totals = Mage::getSingleton('checkout/session')->getQuote()->collectTotals()->getGrandTotal();
+        $subTotal = Mage::getSingleton('checkout/session')->getQuote()->collectTotals()->getSubtotal();
         $_discount_helper = Mage::helper("mageshop_yapay/discount");
         $value_discount = 0;
         $percentage = 0;
         if($_discount_helper->getDiscountActiveCreditCard()){
             $percentage = $_discount_helper->getDiscountPercentageCreditCard();
             if ($percentage > 0 && $percentage < 100) {
-                $value_discount = $_helper->monetize($percentage * 0.01 * $totals);
+                $value_discount = $_helper->monetize($percentage * 0.01 * $subTotal);
             }
         }
         $rest = $this->restCurl();
