@@ -5,7 +5,7 @@ $_helper_interest = Mage::helper("mageshop_yapay/interest");
 $intallmentsActive = $_helper_interest->getInterestActive();
 $quote = Mage::getSingleton('checkout/session')->getQuote();
 $intallments = $this->getInstallments($quote);
-$splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
+$splitJs = $intallmentsActive == false ? 'getSplitValues();' : '';
 ?>
 <fieldset class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
       
@@ -123,6 +123,7 @@ $splitJs = $intallmentsActive == false ? 'getSplitValues()' : '';
                 var v = document.getElementById('yapay_creditcardpayment_cc_number');
                 var resCc = identifyCreditCardTc(v.value.replace(/ /g,''));
                 v.value = resCc;
+                <?php echo $splitJs; ?>
                 $yapay('#yapay_creditcardpayment_cc_number').change(function(){
                     var v = $yapay(this).val();
                     var resCc = identifyCreditCardTc(v.replace(/ /g,''));

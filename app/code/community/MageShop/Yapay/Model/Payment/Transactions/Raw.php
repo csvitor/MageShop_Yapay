@@ -109,9 +109,12 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
 
     private function paymentBankslip()
     {
+        $currentDate = Mage::getModel('core/date')->timestamp(time());
+        $twoDaysLater = strtotime('+2 days', $currentDate);
+        $billet_date_expiration = date('d/m/Y', $twoDaysLater);
         $this->_data['payment'] =  array(
             "payment_method_id" => "6",
-            "billet_date_expiration" => "03/06/2023",
+            "billet_date_expiration" => $billet_date_expiration,
         );
         return $this;
     }
