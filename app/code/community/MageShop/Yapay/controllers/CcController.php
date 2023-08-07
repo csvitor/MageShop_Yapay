@@ -49,7 +49,7 @@ class MageShop_Yapay_CcController extends Mage_Core_Controller_Front_Action{
                     $value_split = $_helper->monetize(( $totals - $value_discount ) / $split);
                     $split_rate = $_helper->__("%s desconto de %s%% %s", number_format( (float) $value_split, 2, ',',''), $percentage, $interest);
                 }else{
-                    $value_split = $_helper->monetize( $splitting->value_split );
+                    $value_split = $splitting->value_split;
                     $split_rate = $_helper->__("%s %s", number_format( (float) $value_split, 2, ',',''), $interest);
                 }
                 $splitSimulate[$split] = $_helper->__("%dx de R$%s", $split, $split_rate);
