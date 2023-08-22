@@ -25,6 +25,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         $this->available_payment_methods = "6";
         $this
         ->token_account()
+        ->reseller_token()
         ->customer()
         ->contacts()
         ->shippingAddress()
@@ -42,6 +43,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         $this->available_payment_methods = "27";
         $this
         ->token_account()
+        ->reseller_token()
         ->customer()
         ->contacts()
         ->shippingAddress()
@@ -60,6 +62,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         $this->available_payment_methods = $this->_helper->getAvailablePaymentMethodsCc();
         $this
         ->token_account()
+        ->reseller_token()
         ->fingerPrint()
         ->customer()
         ->contacts()
@@ -69,6 +72,14 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         ->transaction()
         ->paymentCc();
         return $this->_data;
+    }
+
+    private function reseller_token()
+    {
+        if($this->_helper->getEnvironment() !== 'sandbox'){
+            $this->_data['reseller_token'] = $this->_helper->getResellerToken();
+        }
+        return $this;
     }
 
     private function token_account(){

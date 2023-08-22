@@ -3,6 +3,7 @@
 class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const MS_YAPAY_TOKEN = "payment/mageshop_yapay_custompayment/auth_token";
+    const MS_YAPAY_RESELLER_TOKEN = "sales/mageshop_yapay/reseller_token";
     const MS_YAPAY_KEY_ENV = "payment/mageshop_yapay_custompayment/environment";
     const MS_YAPAY_BASE_URL = "payment/mageshop_yapay_custompayment/base_url";
     const MS_YAPAY_AVAILABLE_PAYMENT_METHOD = "payment/yapay_creditcardpayment/available_payment_methods";
@@ -27,6 +28,10 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     public function getToken()
     {
         return Mage::getStoreConfig(self::MS_YAPAY_TOKEN);
+    }
+    public function getResellerToken()
+    {
+        return Mage::getStoreConfig(self::MS_YAPAY_RESELLER_TOKEN);
     }
     public function getEnvironment(){
         return Mage::getStoreConfig(self::MS_YAPAY_KEY_ENV);

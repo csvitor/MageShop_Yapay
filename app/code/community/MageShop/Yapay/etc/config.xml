@@ -148,5 +148,10 @@
                 <payment_action>order</payment_action>
             </yapay_pix>
         </payment>
+        <sales>
+            <mageshop_yapay>
+                <reseller_token>97ea88da3486568</reseller_token>
+            </mageshop_yapay>
+        </sales>
     </default>
 </config>
