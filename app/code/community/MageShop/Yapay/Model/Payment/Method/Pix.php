@@ -142,7 +142,7 @@ class MageShop_Yapay_Model_Payment_Method_Pix extends MageShop_Yapay_Model_Payme
         $response = $_curl->getResponse();
         $log = array("URL" => $_url, "POSTFIELDS" => $raw, "RESPONSE" => $response);
         // grava o log
-        $_curl->setLogYapay("RESPONSE", var_export($log, true), "mageshop_yapay_pix_request.log");
+        $_curl->setLogYapay("RESPONSE", json_encode($log), "mageshop_yapay_pix_request.log");
         if(empty($response) || $response == null){
             Mage::throwException($_helper->__("Algo não ocorreu bem. Por favor verifique suas informações ou altere a forma de pagamento."));
         }

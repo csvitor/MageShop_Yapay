@@ -28,17 +28,17 @@ class MageShop_Yapay_ObserverController extends Mage_Core_Controller_Front_Actio
             $order->processOrder($response);
             $logger['RESPONSE_YAPAY_AFTER_POSTBACK'] = $response;
             // registra
-            $rest->setLogYapay("POSTBACK", var_export($logger, true), "mageshop_yapay_postback.log");
+            $rest->setLogYapay("POSTBACK", json_encode($logger), "mageshop_yapay_postback.log");
             $http->setHttpResponseCode(200);
         }catch(Mage_Core_Exception $e){
             $http->setHttpResponseCode(400);
-            Mage::log($e->getMessage() , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
+            $_helper->setLogAllEvents('mageshop_yapay_erro_postback.log', $e->getMessage());
         }catch (\Exception $e) {
             $http->setHttpResponseCode(400);
-            Mage::log(var_export($e, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
+            $_helper->setLogAllEvents('mageshop_yapay_erro_postback.log', json_encode($e));
         }catch( \Throwable $th) {
             $http->setHttpResponseCode(500);
-            Mage::log( var_export($th, true) , Zend_Log::DEBUG , 'mageshop_yapay_erro_postback.log', true);
+            $_helper->setLogAllEvents('mageshop_yapay_erro_postback.log', json_encode($th));
         }
     }
 

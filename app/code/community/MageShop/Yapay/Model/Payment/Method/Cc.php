@@ -164,9 +164,10 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
         $_curl->url($_url)->_method('POST')->_body($raw)->exec();
         // resultado yapay
         $response = $_curl->getResponse();
-        $log = array("URL" => $_url, "POSTFIELDS" => $raw, "RESPONSE" => $response);
+        unset($pushData['payment']);
+        $log = array("URL" => $_url, "POSTFIELDS" => $pushData, "RESPONSE" => $response);
         // grava o log
-        $_curl->setLogYapay("RESPONSE", var_export($log, true), "mageshop_yapay_cc_request.log");
+        $_curl->setLogYapay("RESPONSE", json_encode($log), "mageshop_yapay_cc_request.log");
         if(empty($response) || $response == null){
             Mage::throwException($_helper->__("Algo não ocorreu bem. Por favor verifique suas informações ou altere a forma de pagamento."));
         }

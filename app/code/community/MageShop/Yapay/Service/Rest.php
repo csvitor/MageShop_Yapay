@@ -163,7 +163,10 @@ class MageShop_Yapay_Service_Rest{
      * @return void
      */
     public function setLogYapay($title, $body, $file){
-        Mage::log("[-- {$title} --] {$body}", null , $file, true);
+        $active = Mage::helper("mageshop_yapay/data")->getActiveLogs();
+        if(in_array($active,[2,3])){
+            Mage::log("[-- {$title} --] {$body}", null , $file, true);
+        }
     }
 
 }

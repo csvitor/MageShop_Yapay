@@ -6,6 +6,7 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     const MS_YAPAY_RESELLER_TOKEN = "sales/mageshop_yapay/reseller_token";
     const MS_YAPAY_KEY_ENV = "payment/mageshop_yapay_custompayment/environment";
     const MS_YAPAY_BASE_URL = "payment/mageshop_yapay_custompayment/base_url";
+    const MS_YAPAY_ACTION_LOGS = "payment/mageshop_yapay_custompayment/action_logs";
     const MS_YAPAY_AVAILABLE_PAYMENT_METHOD = "payment/yapay_creditcardpayment/available_payment_methods";
     const MS_YAPAY_COUNT_MAX_SPLIT = "payment/yapay_creditcardpayment/installments";
     const MS_YAPAY_COUNT_MIN_SPLIT = "payment/yapay_creditcardpayment/min_installment";
@@ -47,6 +48,9 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCaptureTaxPix(){
         return Mage::getStoreConfig(self::MS_YAPAY_CPF_FORM_PIX_ENABLE);
     }
+    public function getActiveLogs(){
+        return Mage::getStoreConfig(self::MS_YAPAY_ACTION_LOGS);
+    }
     public function getEnvironmentFingerPrint()
     {
         if ($this->getEnvironment() == 'sandbox') {
@@ -87,5 +91,18 @@ class MageShop_Yapay_Helper_Data extends Mage_Core_Helper_Abstract
         $value = (float) number_format($value, 2, '.', '');
         return $value;
     }
+    
 
+    /**
+     * Nome file log
+     *
+     * @param string $file
+     * @param string $data
+     */
+    public function setLogAllEvents($file, $data)
+    {
+        if($this->getActiveLogs() == '3'){
+            Mage::log($data, Zend_Log::DEBUG , $file , true);
+        }
+    }
 }
