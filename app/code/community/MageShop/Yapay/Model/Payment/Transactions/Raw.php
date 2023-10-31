@@ -205,6 +205,13 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
             "cpf" => $doc,
             "email" => $quote->getCustomerEmail()
         );
+
+        if (strlen($doc) === 14) {
+            $this->_data['customer']['cnpj'] = $number_taxvat;
+            $this->_data['customer']['trade_name'] =  $quote->getCustomerFirstname() . ' ' . $quote->getCustomerLastname();
+            $this->_data['customer']['company_name'] =  $quote->getCustomerFirstname() . ' ' . $quote->getCustomerLastname();
+        }
+        
         return $this;
     }
     private function contacts()
