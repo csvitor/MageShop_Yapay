@@ -245,7 +245,7 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
         $items = $quote->getAllItems();
         $i = 0;
         foreach ($items as $item) {
-            if($item->getPrice() <= 0){
+            if(!$this->rulesItem($item)){
                 continue;
             }
             $this->_data['transaction_product'][$i]['description'] = $item->getName();
@@ -302,5 +302,16 @@ class MageShop_Yapay_Model_Payment_Transactions_Raw{
     public function getCheckout()
     {
         return Mage::getSingleton('checkout/session');
+    }
+    private function rulesItem($item)
+    {
+        if($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+            $bundleOptions = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            return (bool) $bundleOptions['product_calculations'];
+        }
+        if($item->getPrice() <= 0){
+            return false;
+        }
+        return true;
     }
 }
