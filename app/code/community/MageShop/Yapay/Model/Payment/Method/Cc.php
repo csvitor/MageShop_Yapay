@@ -90,14 +90,11 @@ class MageShop_Yapay_Model_Payment_Method_Cc extends MageShop_Yapay_Model_Paymen
      *  Ela recebe um objeto Varien contendo os dados do formulário e os atribui à instância de informação do pagamento.
      *  Em seguida, realiza uma validação dos dados e armazena-os em "additional_information" no formato de array.
      *
-     * @param Varien_Object $data
-     * @return void
+     * @param mixed $data
+     * @return self
      */
-    public function assignData(Varien_Object $data)
+    public function assignData($data)
     {
-        if (!($data instanceof Varien_Object)) {
-            $data = new Varien_Object($data);
-        }
         $info = $this->getInfoInstance();
         $info->setCheckNo($data->getCheckNo())->setCheckDate($data->getCheckDate());
 
